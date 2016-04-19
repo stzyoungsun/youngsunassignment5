@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas ImagePath="Component_Sheet0.png">
+<SubTexture name="List.png" x="0" y="0" width="173" height="226 "/>
+<SubTexture name="Next.png" x="0" y="226" width="32" height="32 "/>
+<SubTexture name="RadioOFF.png" x="32" y="226" width="32" height="32 "/>
+<SubTexture name="RadioON.png" x="64" y="226" width="32" height="32 "/>
+<SubTexture name="down.png" x="96" y="226" width="32" height="21 "/>
+<SubTexture name="fast.png" x="128" y="226" width="32" height="21 "/>
+<SubTexture name="Start.png" x="0" y="258" width="64" height="64 "/>
+<SubTexture name="Stop.png" x="64" y="258" width="64" height="64 "/>
+<SubTexture name="prev.png" x="128" y="258" width="32" height="32 "/>
+<SubTexture name="LoadSprite.png" x="173" y="0" width="256" height="256 "/>
+<SubTexture name="Window.png" x="429" y="0" width="512" height="256 "/>
+</TextureAtlas>
