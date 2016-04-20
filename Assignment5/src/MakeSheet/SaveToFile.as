@@ -14,23 +14,47 @@ package MakeSheet
 		
 		
 		private var _fileStream:FileStream = new FileStream(); 
-		private var _saveFile:File = new File(); 
 		
 		private var _spriteSheetBitmap : Vector.<Bitmap>;
 		private var _spriteSheetRect :  Vector.<Vector.<Rectangle>>;
 		private var _spriteSheetName : Vector.<Array>;
 		
 		
-		
 		public function SaveToFile(bitmap:Vector.<Bitmap>, spriteSheetRect : Vector.<Vector.<Rectangle>>, spriteSheetName : Vector.<Array>)
 		{
-			_saveFile = File.applicationDirectory;
-			_saveFile.addEventListener(Event.SELECT, onSelectHandler);
-			_saveFile.browseForDirectory("저장 할 png, xml의 폴더를 선택해주세요. (우측하단의 폴더선택을 눌러주세요!!)");
-		
+			var filePath:File = File.documentsDirectory.resolvePath("images/");
 			_spriteSheetBitmap = bitmap;
 			_spriteSheetRect = spriteSheetRect;
 			_spriteSheetName = spriteSheetName;
+			
+			var tempPath : String =  filePath.nativePath;
+			
+			for(var i : int =0; i < _spriteSheetBitmap.length; i++)
+			{
+				var _bitmapByteArray:ByteArray = new ByteArray();
+				_spriteSheetBitmap[i].bitmapData.encode(new Rectangle(0,0,_spriteSheetBitmap[i].width,_spriteSheetBitmap[i].height), new PNGEncoderOptions(), _bitmapByteArray);
+				filePath.nativePath += "/NewSprite_Sheet"+i+".png";
+				_fileStream.open(filePath, FileMode.WRITE);
+				_fileStream.writeBytes(_bitmapByteArray);
+				filePath.nativePath = tempPath;
+				_fileStream.close();
+			}
+			
+			for(var j : int = 0; j< _spriteSheetName.length; j++)
+			{
+				filePath.nativePath += "/NewSprite_Sheet"+j+".xml";
+				_fileStream.open(filePath, FileMode.WRITE);
+				_fileStream.writeUTFBytes("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+				_fileStream.writeUTFBytes("<TextureAtlas ImagePath=\"" + "NewSprite_sheet"+j+".png" + "\">\n");
+				for(var k : int = 0; k< _spriteSheetName[j].length; k++)
+				{
+					_fileStream.writeMultiByte("<SubTexture name=\"" + _spriteSheetName[j][k] + "\" x=\"" + _spriteSheetRect[j][k].x 
+						+ "\" y=\"" + _spriteSheetRect[j][k].y + "\" width=\"" + _spriteSheetRect[j][k].width + "\" height=\"" + _spriteSheetRect[j][k].height + " \"/>\n","EUC-KR");
+				}
+				_fileStream.writeUTFBytes("</TextureAtlas>");
+				_fileStream.close();
+				filePath.nativePath = tempPath;
+			}
 		}
 		/**
 		 * 
@@ -45,35 +69,7 @@ package MakeSheet
 
 		private function onSelectHandler(e:Event):void
 		{
-			_saveFile.removeEventListener(Event.SELECT, onSelectHandler);
-			var tempPath : String =  _saveFile.nativePath;
-			
-			for(var i : int =0; i < _spriteSheetBitmap.length; i++)
-			{
-				var _bitmapByteArray:ByteArray = new ByteArray();
-				_spriteSheetBitmap[i].bitmapData.encode(new Rectangle(0,0,_spriteSheetBitmap[i].width,_spriteSheetBitmap[i].height), new PNGEncoderOptions(), _bitmapByteArray);
-				_saveFile.nativePath += "\\NewSprite_Sheet"+i+".png";
-				_fileStream.open(_saveFile, FileMode.WRITE);
-				_fileStream.writeBytes(_bitmapByteArray);
-				_saveFile.nativePath = tempPath;
-				_fileStream.close();
-			}
-			
-			for(var j : int = 0; j< _spriteSheetName.length; j++)
-			{
-				_saveFile.nativePath += "\\NewSprite_Sheet"+j+".xml";
-				_fileStream.open(_saveFile, FileMode.WRITE);
-				_fileStream.writeUTFBytes("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-				_fileStream.writeUTFBytes("<TextureAtlas ImagePath=\"" + "NewSprite_sheet"+j+".png" + "\">\n");
-				for(var k : int = 0; k< _spriteSheetName[j].length; k++)
-				{
-					_fileStream.writeMultiByte("<SubTexture name=\"" + _spriteSheetName[j][k] + "\" x=\"" + _spriteSheetRect[j][k].x 
-						+ "\" y=\"" + _spriteSheetRect[j][k].y + "\" width=\"" + _spriteSheetRect[j][k].width + "\" height=\"" + _spriteSheetRect[j][k].height + " \"/>\n","EUC-KR");
-				}
-				_fileStream.writeUTFBytes("</TextureAtlas>");
-				_fileStream.close();
-				_saveFile.nativePath = tempPath;
-			}
+		
 			
 		}
 	}

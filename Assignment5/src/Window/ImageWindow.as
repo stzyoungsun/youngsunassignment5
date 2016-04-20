@@ -1,5 +1,7 @@
 package Window
 {
+	import com.lpesign.Extension;
+	
 	import flash.events.Event;
 	import flash.events.FileListEvent;
 	import flash.filesystem.File;
@@ -42,6 +44,8 @@ package Window
 		
 		private var _curImage : Image;
 		private var _viewButtonCnt : int = 0;
+		
+		private var _stateToast:Extension = new Extension();
 		/**
 		 * 
 		 * @param posx 윈도우 위치
@@ -82,7 +86,7 @@ package Window
 			_prevButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),prevImage);
 			_addButton = new ButtonClass(new Rectangle(_windowRect.width/2, _windowRect.height/2+30, _windowRect.width/4,  _windowRect.height/10),addImage, "이미지 추가");
 			_makeSheet = new ButtonClass(new Rectangle(_windowRect.width*3/4, _windowRect.height/2+30, _windowRect.width/4, _windowRect.height/10),makeButtonImage, "Remake Sprite Sheet");
-			//_makeSheet.getButton().visible = false;
+			_makeSheet.getButton().visible = false;
 			
 			addChild(_vewImage);
 			addChild(_addButton.getButton());
@@ -111,23 +115,29 @@ package Window
 				switch(e.currentTarget)
 				{
 					case _nextButton.getButton():  //다음 리스트를 보여주기 위한 부분
+						_nextButton.clickedONMotion();
 						_viewButtonCnt+=3;
 						if(_viewButtonCnt >= _curTexture.getsubTextureName().length)
 							_viewButtonCnt -= 3;
 						viewListButton();
 						break;
 					case _prevButton.getButton():  //이전 리스트를 보여주기 위한 부분
+						_prevButton.clickedONMotion();
 						_viewButtonCnt-=3;
 						if(_viewButtonCnt < 0)
 							_viewButtonCnt = 0;
 						viewListButton();
 						break;
 					case _addButton.getButton():
+						_addButton.clickedONMotion();
 						addImage();
 						break;
 					case _makeSheet.getButton():
+						_makeSheet.clickedONMotion();
+						_stateToast.toast("이미지 병합 중 입니다.");
 						var cMakeSpriteSheet : MakeSpriteSheet = new MakeSpriteSheet(_curBitmap);
 						cMakeSpriteSheet.getSheet();
+						_stateToast.toast("이미지 병합 완료 Image 폴더를 확인하세요.");
 						break;
 				}
 			}
