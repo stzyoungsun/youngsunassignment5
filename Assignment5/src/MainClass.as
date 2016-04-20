@@ -1,6 +1,7 @@
 package
 {
 	import flash.geom.Rectangle;
+	import flash.ui.Keyboard;
 	
 	import Animaiton.AtlasBitmap;
 	import Animaiton.Atlastexture;
@@ -14,6 +15,7 @@ package
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.events.KeyboardEvent;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;

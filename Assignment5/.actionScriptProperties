@@ -35,7 +35,7 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="D:/Starling/stariling/starling/bin/starling.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="5" linkType="2" path="C:/Users/user/Documents/youngsunassignment5/ToastExtension/bin/ToastExtension.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="C:/Users/user/Documents/Ane/ToastExtension/bin/ToastExtension.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -54,14 +54,11 @@
       <airSettings airCertificatePath="D:/키젠.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths>
-          <anePathEntry path="C:/Users/user/Documents/youngsunassignment5/ToastExtension/bin/ToastExtension.ane"/>
+          <anePathEntry path="C:/Users/user/Documents/Ane/ToastExtension/bin/ToastExtension.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>
-        <newPackagingParams>
-          <Parameter name="FILE_TO_PACKAGE2" value="C:\Users\user\Documents\youngsunassignment5\Assignment5\bin-debug\resource\Component\Component_Sheet0.png"/>
-          <Parameter name="FILE_TO_PACKAGE3" value="C:\Users\user\Documents\youngsunassignment5\Assignment5\bin-debug\resource\Component\Component_Sheet0.xml"/>
-        </newPackagingParams>
+        <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
       <actionScriptSettings version="1"/>
