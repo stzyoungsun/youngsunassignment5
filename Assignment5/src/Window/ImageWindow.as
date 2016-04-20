@@ -1,6 +1,7 @@
 package Window
 {
 	import flash.events.Event;
+	import flash.events.FileListEvent;
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
@@ -157,14 +158,18 @@ package Window
 		private function addImage() : void
 		{
 			var file : File = File.applicationDirectory;
-			file.browseForDirectory("추가 할 이미지들이 있는 폴더를 선택해 주세요");
-			file.addEventListener(flash.events.Event.SELECT,onDicSelected);
+			file.browseForOpenMultiple("추가 할 이미지들이 있들을 선택해 주세요");
+			file.addEventListener(FileListEvent.SELECT_MULTIPLE, onFilesSelected);
 			
-			function onDicSelected(e:flash.events.Event):void
+			function onFilesSelected(e:FileListEvent):void
 			{
+				var arr : Array = new Array();
+				arr = e.files;
+				
 				_makeSheet.getButton().visible = true;
 				_makeSheet.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
-				//_cAddImageLoader = new LoaderClass(addImageToList,file.nativePath,false);	
+				
+				_cAddImageLoader = new LoaderClass(addImageToList,arr,false);	
 			}
 		}
 		

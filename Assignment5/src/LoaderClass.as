@@ -131,7 +131,9 @@ package
 						url = url.substring(5, url.length);	
 					
 					_urlArray.push(decodeURIComponent(url));	
-					_xmlName.push(url.replace("."+extension,".xml"));
+					
+					if(_isXml == true)
+						_xmlName.push(url.replace("."+extension,".xml"));
 				}
 			}
 		}
