@@ -1,0 +1,13 @@
+<extension xmlns="http://ns.adobe.com/air/extension/3.1">
+    <id>com.lpesign.Extension</id>
+    <versionNumber>1.0.0</versionNumber>
+    <platforms>
+        <platform name="Android-ARM">
+            <applicationDeployment>
+                <nativeLibrary>Extension.jar</nativeLibrary>
+                <initializer>com.lpesign.extensions.Extension</initializer>
+                <finalizer>com.lpesign.extensions.Extension</finalizer>
+             </applicationDeployment>
+        </platform>
+    </platforms>
+</extension>

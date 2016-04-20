@@ -310,6 +310,13 @@
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
 <extensions>
-        <extensionID>com.lpesign.ToastExtension</extensionID>
+        
+    <extensionID>com.lpesign.Extension</extensionID>
+    
+    
+    
+    
+    
+    <extensionID>ane.Extension</extensionID>
     </extensions>
 </application>

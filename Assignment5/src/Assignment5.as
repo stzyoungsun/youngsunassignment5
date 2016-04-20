@@ -1,7 +1,7 @@
 package
 {
 
-	import com.lpesign.ToastExtension;
+	import com.lpesign.Extension;
 	
 	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
@@ -16,7 +16,7 @@ package
 	public class Assignment5 extends Sprite
 	{
 		private var _mainStarling:Starling;
-		private var _exitToast:ToastExtension = new ToastExtension();
+		private var _exitToast:Extension = new Extension();
 		
 		public function Assignment5()
 		{
@@ -39,7 +39,7 @@ package
 				{
 					trace("종료");
 					e.preventDefault();
-					_exitToast.toast("exit");
+					_exitToast.exitDialog(true);
 				}
 			}
 		}

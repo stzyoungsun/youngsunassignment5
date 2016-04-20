@@ -311,8 +311,7 @@
     </iPhone>
 
 
-
 <extensions>
-        <extensionID>com.lpesign.ToastExtension</extensionID>
+        <extensionID>com.lpesign.Extension</extensionID>
     </extensions>
 </application>

@@ -1,7 +1,5 @@
 package
 {
-	import com.lpesign.ToastExtension;
-	
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
@@ -10,6 +8,7 @@ package
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
+	import com.lpesign.Extension;
 
 	
 	public class LoaderClass
@@ -35,7 +34,7 @@ package
 		private var _completeFunction:Function;
 		
 		private var _isXml : Boolean; //xml 존재 여부
-		private var _errorToast:ToastExtension = new ToastExtension();
+		private var _errorToast:Extension = new Extension();
 		public function LoaderClass(completeFunction : Function,directoryPath:Array = null, isXml : Boolean = true)
 		{
 			_isXml = isXml;
