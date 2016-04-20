@@ -10,7 +10,7 @@
   </features>
   <libraries>
     <library path="library.swf">
-      <script name="com/lpesign/Extension" mod="1461124558623" signatureChecksum="4261821144" >
+      <script name="com/lpesign/Extension" mod="1461134552843" signatureChecksum="90392063" >
         <def id="com.lpesign:Extension" /> 
         <dep id="trace" type="e" /> 
         <dep id="flash.external:ExtensionContext" type="e" /> 
@@ -20,14 +20,14 @@
         <dep id="AS3" type="n" /> 
         <dep id="Object" type="i" /> 
       </script>
-      <script name="_4fa7abc4c4c131cc2d6bf818d838fc9fb6bba1c22e3cd18220f13c6a4f179e9b_flash_display_Sprite" mod="1461127802204" signatureChecksum="654474421" >
-        <def id="_4fa7abc4c4c131cc2d6bf818d838fc9fb6bba1c22e3cd18220f13c6a4f179e9b_flash_display_Sprite" /> 
+      <script name="_fa2e652316f45fb9f0f748223a07aeaf595742a52e37d7f9e21dde34aab12610_flash_display_Sprite" mod="1461134636300" signatureChecksum="2224454273" >
+        <def id="_fa2e652316f45fb9f0f748223a07aeaf595742a52e37d7f9e21dde34aab12610_flash_display_Sprite" /> 
         <dep id="flash.system:Security" type="e" /> 
         <dep id="AS3" type="n" /> 
         <dep id="flash.display:Sprite" type="i" /> 
       </script>
       <digests>
-        <digest type="SHA-256" signed="false" value="a601059586e61f58b9ffa9d31ddde2652179fcc910063c5407575cb04eb9f54e"   />
+        <digest type="SHA-256" signed="false" value="4c9f700676d9d9a67906ea1ae1e691f0756cd077e9d9a76b65e1526994476823"   />
       </digests>
     </library>
   </libraries>

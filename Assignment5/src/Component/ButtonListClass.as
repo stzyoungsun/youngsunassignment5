@@ -71,7 +71,9 @@ package Component
 			if(touch)
 			{
 				_drawSprite(button.name);
+				
 			}
+			
 		}
 		
 		public function release() : void

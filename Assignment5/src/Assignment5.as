@@ -16,8 +16,8 @@ package
 	public class Assignment5 extends Sprite
 	{
 		private var _mainStarling:Starling;
-		private var _exitToast:Extension = new Extension();
 		
+
 		public function Assignment5()
 		{
 			super();
@@ -32,16 +32,7 @@ package
 			_mainStarling.showStats = true;
 			_mainStarling.start();
 			
-			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, handleKeys);
-			function handleKeys (e : KeyboardEvent) : void
-			{
-				if(e.keyCode == Keyboard.BACK)
-				{
-					trace("종료");
-					e.preventDefault();
-					_exitToast.exitDialog(true);
-				}
-			}
+			
 		}
 	}
 }

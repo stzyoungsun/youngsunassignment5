@@ -19,6 +19,8 @@ public class Context extends FREContext{
         Map<String, FREFunction> map = new HashMap<String, FREFunction>();
         map.put("toast", new ToastFunction());
         map.put("exitdialog", new ExitDialogFuncion());
+        map.put("filedialog", new FileDialogFunction());
+        
         return map;
     }
 }

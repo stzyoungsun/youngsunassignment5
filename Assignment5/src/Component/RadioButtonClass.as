@@ -5,7 +5,7 @@ package Component
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.text.TextField;
-
+	
 	public class RadioButtonClass
 	{
 		/**
@@ -40,16 +40,27 @@ package Component
 			_radioButton.x = _radioButtonRect.x;
 			_radioButton.y = _radioButtonRect.y;
 			
-			if(_radioButton.width != 0)
+			if(_radioButtonRect.width != 0)
+			{
 				_radioButtonONImage.width = _radioButtonRect.width;
-			if(_radioButton.height != 0)
+				_radioButtonOFFImage.width = _radioButtonRect.width;
+			}
+			if(_radioButtonRect.height != 0)
+			{
 				_radioButtonONImage.height = _radioButtonRect.height;
+				_radioButtonOFFImage.height = _radioButtonRect.height;
+			}
+				
 			
 			_radioButton.addChild(_radioButtonONImage);
 			
 			// TextField 객체 생성
-			var textField:TextField = new TextField(170, _radioButton.height, _radioButtonText);
-			textField.x = 10;
+		
+			
+			var textField:TextField = new TextField(_radioButtonONImage.width*4, _radioButtonONImage.height, _radioButtonText);
+			textField.format.size = 38;
+			textField.x = _radioButtonONImage.width*2;
+	
 			// 버튼 객체의 자식으로 등록
 			_radioButton.addChild(textField);
 		}

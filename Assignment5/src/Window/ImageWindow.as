@@ -67,7 +67,7 @@ package Window
 			_vewImage = new Image(_componentDictionary["Window.png"]);
 		
 			var nextImage:Image = new Image(_componentDictionary["Next.png"]);
-			var prevImage:Image = new Image(_componentDictionary["Prev.png"]);
+			var prevImage:Image = new Image(_componentDictionary["prev.png"]);
 			var addImage : Image = new Image(_componentDictionary["LoadSprite.png"]);
 			_buttonListImage = new Image(_componentDictionary["List.png"]);
 			var makeButtonImage : Image  = new Image(_componentDictionary["LoadSprite.png"]);
@@ -75,13 +75,13 @@ package Window
 			_vewImage.x = _windowRect.x;
 			_vewImage.y = _windowRect.y;
 			_vewImage.width = _windowRect.width;
-			_vewImage.height = _windowRect.height/2 + 50;
+			_vewImage.height = _windowRect.height/2;
 			
-			_nextButton = new ButtonClass(new Rectangle(_windowRect.x+190, _vewImage.height+30, nextImage.width, nextImage.height),nextImage);
-			_prevButton = new ButtonClass(new Rectangle(_windowRect.x+40, _vewImage.height+30, prevImage.width, prevImage.height),prevImage);
-			_addButton = new ButtonClass(new Rectangle(460, 390, addImage.width/2, addImage.height),addImage, "이미지 추가");
-			_makeSheet = new ButtonClass(new Rectangle(345, 450, addImage.width*2, addImage.height/2),makeButtonImage, "Remake Sprite Sheet");
-			_makeSheet.getButton().visible = false;
+			_nextButton = new ButtonClass(new Rectangle(_windowRect.width/4, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),nextImage);
+			_prevButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),prevImage);
+			_addButton = new ButtonClass(new Rectangle(_windowRect.width/2, _windowRect.height/2+30, _windowRect.width/4,  _windowRect.height/10),addImage, "이미지 추가");
+			_makeSheet = new ButtonClass(new Rectangle(_windowRect.width*3/4, _windowRect.height/2+30, _windowRect.width/4, _windowRect.height/10),makeButtonImage, "Remake Sprite Sheet");
+			//_makeSheet.getButton().visible = false;
 			
 			addChild(_vewImage);
 			addChild(_addButton.getButton());
@@ -130,6 +130,25 @@ package Window
 						break;
 				}
 			}
+			
+			else if(e.getTouch(stage,TouchPhase.ENDED))
+			{
+				switch(e.currentTarget)
+				{
+					case _nextButton.getButton():
+						_nextButton.clickedOFFMotion();
+						break;
+					case _prevButton.getButton():  //다음 리스트를 보여주기 위한 부분
+						_prevButton.clickedOFFMotion();
+						break;
+					case _addButton.getButton():  //이전 리스트를 보여주기 위한 부분
+						_addButton.clickedOFFMotion();
+						break;
+					case _makeSheet.getButton():
+						_makeSheet.clickedOFFMotion();
+						break;
+				}
+			}
 		}
 		/**
 		 * Note #유영선 이미지 추가 기능 함수 
@@ -175,7 +194,7 @@ package Window
 		{
 			if(!_buttonList)
 			{
-				_buttonList = new ButtonListClass(new Rectangle(_windowRect.x-30, _vewImage.height+55,350 ,200 ),_buttonListImage,drawSprite);
+				_buttonList = new ButtonListClass(new Rectangle(_windowRect.x, _nextButton.getButton().y+_nextButton.getButton().height,_windowRect.width/2 ,_windowRect.height*1/3 ),_buttonListImage,drawSprite);
 				addChild(_buttonList.getList());
 			}
 				
@@ -183,8 +202,8 @@ package Window
 			
 			for(var i :int = 0; i < _curTexture.getsubVector().length; i++)
 			{
-				var button :ButtonClass = new ButtonClass(new Rectangle(),new Image(_componentDictionary["LoadSprite.png"]),_curTexture.getsubTextureName()[i]);
-				_buttonList.addButton(button.getButton(),70,50+buttonPos*40);
+				var button :ButtonClass = new ButtonClass(new Rectangle(0,0,_buttonList.getList().width*6/7,_buttonList.getList().height*3/8),new Image(_componentDictionary["LoadSprite.png"]),_curTexture.getsubTextureName()[i]);
+				_buttonList.addButton(button.getButton(),30,button.getButton().height/2+buttonPos*button.getButton().height/2);
 				button.getButton().visible = false;	
 					
 				if(buttonPos == 2)
@@ -228,8 +247,11 @@ package Window
 			}
 			
 			_curImage = new Image(_curTexture.getsubSpriteSheet()[spriteName]);
-			_curImage.x = 30;
-			_curImage.y = 100;
+			_curImage.width =_vewImage.width/4;
+			_curImage.height =_vewImage.height/4;
+			_curImage.x = _vewImage.width/2 - _curImage.width/2;
+			_curImage.y = _vewImage.height/2 - _curImage.height/2;
+
 			addChild(_curImage);
 		}
 		

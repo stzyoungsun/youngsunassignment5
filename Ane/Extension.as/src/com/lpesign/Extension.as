@@ -24,5 +24,8 @@ package com.lpesign
 			context.call("exitdialog",clickedFlag);
 		}
 		
+		public function fileDialog(clickedFlag:Boolean) : void{
+			context.call("filedialog",clickedFlag);
+		}
 	}
 }

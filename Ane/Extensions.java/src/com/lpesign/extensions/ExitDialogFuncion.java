@@ -1,5 +1,6 @@
 package com.lpesign.extensions;
 
+
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREInvalidObjectException;
@@ -11,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 
 
 public class ExitDialogFuncion implements FREFunction{
@@ -58,7 +60,7 @@ public class ExitDialogFuncion implements FREFunction{
 	        	 
 	        	  exitDialog.show();
 	        }
-	        
+	        //Intent i = new Intent(_flashActivity, FilePickerActivity.class);
 	        return null;
 	    }
 }

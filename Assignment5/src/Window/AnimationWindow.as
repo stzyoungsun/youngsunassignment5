@@ -1,6 +1,8 @@
 package Window
 {
 
+	import com.lpesign.Extension;
+	
 	import flash.events.Event;
 	import flash.events.FileListEvent;
 	import flash.filesystem.File;
@@ -22,6 +24,7 @@ package Window
 	import starling.events.TouchPhase;
 	import starling.text.TextField;
 	import starling.textures.Texture;
+
 	public class AnimationWindow extends Sprite
 	{
 		private var _cSpriteLoader: LoaderClass;
@@ -33,7 +36,7 @@ package Window
 		private var _startButton : ButtonClass;
 		private var _stopButton : ButtonClass;
 		private var _loadSpriteButton : ButtonClass;
-		private var _buttonList : ButtonListClass;
+		private var _buttonList : ButtonListClass = null;
 		private var _nextButton : ButtonClass;
 		private var _prevButton : ButtonClass;
 		private var _fastButton : ButtonClass;
@@ -46,8 +49,10 @@ package Window
 		private var _createImagewindow : Function;
 		private var _viewButtonCnt : int = 0;
 		
-		private var _fpsTextField : TextField = new TextField(100,20,"fps : 0");
+		private var _fpsTextField : TextField; 
 		private var _fpsCount : int =30;
+		
+		private var _fileDialg:Extension = new Extension();
 		/**
 		 * 
 		 * @param posx 윈도우 x 값
@@ -64,6 +69,8 @@ package Window
 			_componentDictionary = componentDictionary;
 			_createImagewindow = createImagewindow;
 			addEventListener(starling.events.Event.ADDED_TO_STAGE, onDrawWindow);
+			_fpsTextField= new TextField(_windowRect.width/5,_windowRect.height/20,"fps : 0");
+			_fpsTextField.format.size = 50;
 		}
 		/**
 		 * 
@@ -89,25 +96,26 @@ package Window
 			_vewImage.width = _windowRect.width;
 			_vewImage.height = _windowRect.height/2;
 			
-			_startButton = new ButtonClass(new Rectangle(_windowRect.width*6/10, _windowRect.height*3/4, _windowRect.width/14, _windowRect.height/14),startImage);
-			_stopButton = new ButtonClass(new Rectangle(_windowRect.width*8/10, _windowRect.height*3/4, _windowRect.width/14, _windowRect.height/14),stopImage);
+			_startButton = new ButtonClass(new Rectangle(_windowRect.width*6/10, _windowRect.height*3/5, _windowRect.width/14, _windowRect.height/14),startImage);
+			_stopButton = new ButtonClass(new Rectangle(_windowRect.width*8/10, _windowRect.height*3/5, _windowRect.width/14, _windowRect.height/14),stopImage);
 			
 			_loadSpriteButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+35,_windowRect.width*3/10, _windowRect.height/8),loadImage,"LoadDic SpriteSheets");
 			
 			_nextButton = new ButtonClass(new Rectangle(_windowRect.width/4, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),nextImage);
 			_prevButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),prevImage);
 			
-			_fastButton = new ButtonClass(new Rectangle(_windowRect.width*8/10, _windowRect.height*2/3, _windowRect.width/14, _windowRect.height/14),fastImage);
-			_slowButton = new ButtonClass(new Rectangle(_windowRect.width*6/10,_windowRect.height*2/3, _windowRect.width/14, _windowRect.height/14),slowImage);
+			_fastButton = new ButtonClass(new Rectangle(_windowRect.width*8/10, _windowRect.height/2+30, _windowRect.width/14, _windowRect.height/14),fastImage);
+			_slowButton = new ButtonClass(new Rectangle(_windowRect.width*6/10,_windowRect.height/2+30, _windowRect.width/14, _windowRect.height/14),slowImage);
 			
 			_buttonList = new ButtonListClass(new Rectangle(_windowRect.x, _nextButton.getButton().y+_nextButton.getButton().height, _windowRect.width/2, _windowRect.height*1/3),buttonListImage,drawSprite);
 			
+			_buttonList.getList().visible = false;
 			_startButton.getButton().visible = false;
 			_stopButton.getButton().visible = false;
 			_fastButton.getButton().visible = false;
 			_slowButton.getButton().visible = false;
-			_fpsTextField.x = 20;
-			_fpsTextField.y = 50;
+			_fpsTextField.x = _windowRect.width/30;
+			_fpsTextField.y = _windowRect.height/30;
 			
 		
 			addChild(_vewImage);
@@ -189,7 +197,7 @@ package Window
 						break;
 				}
 			}
-			else
+			else if(e.getTouch(stage,TouchPhase.ENDED))
 			{
 				switch(e.currentTarget)
 				{
@@ -210,7 +218,6 @@ package Window
 						break;
 					case _fastButton.getButton():
 						_fastButton.clickedOFFMotion();
-						
 						break;
 					case _slowButton.getButton():
 						_slowButton.clickedOFFMotion();
@@ -224,12 +231,10 @@ package Window
 		 */		
 		private function CreateAnimation() : void
 		{
-			
+			//_fileDialg.fileDialog(true);
 			_loadFile = File.applicationDirectory;
-			//_loadFile.addEventListener(flash.events.Event.SELECT,onSelectHandler);
 			_loadFile.browseForOpenMultiple("Select SpriteSheet PNG Files");
 			_loadFile.addEventListener(FileListEvent.SELECT_MULTIPLE, onFilesSelected);
-			//loadFile.browseForDirectory("Load 할 Sprite-Sheet를 선택해주세요 (우측하단의 폴더선택을 눌러주세요!!)");
 		}
 		/**
 		 * 
@@ -241,7 +246,7 @@ package Window
 			_loadFile.removeEventListener(flash.events.Event.SELECT, onFilesSelected);
 			var arr : Array = new Array();
 			arr = e.files;
-			
+			_buttonList.getList().visible = true;
 			_cSpriteLoader = new LoaderClass(loadList,arr);
 		}
 		
@@ -272,7 +277,7 @@ package Window
 			for(var i :int = 0; i < _cSpriteLoader.getspriteName().length; i++)
 			{
 				trace(_cSpriteLoader.getspriteName()[i]);
-				var button :ButtonClass = new ButtonClass(new Rectangle(0,0,_buttonList.getList().width*3/4,_buttonList.getList().height*3/8),new Image(_componentDictionary["LoadSprite.png"]),_cSpriteLoader.getspriteName()[i])
+				var button :ButtonClass = new ButtonClass(new Rectangle(0,0,_buttonList.getList().width*6/7,_buttonList.getList().height*3/8),new Image(_componentDictionary["LoadSprite.png"]),_cSpriteLoader.getspriteName()[i])
 				_buttonList.addButton(button.getButton(),30,button.getButton().height/2+buttonPos*button.getButton().height/2);
 				button.getButton().visible = false;
 				
@@ -335,9 +340,11 @@ package Window
 			}
 				
 			_cClip= new AnimaitonClip(subTexture.getsubVector(),30,drawAnimation);
-			_cClip.x = 30;
-			_cClip.y = 100;
-			
+			_cClip.width =_vewImage.width/4;
+			_cClip.height =_vewImage.height/4;
+			_cClip.x = _vewImage.width/2 - _cClip.width/2;
+			_cClip.y = _vewImage.height/2 - _cClip.height/2;
+			 
 			addChild(_cClip);
 		}
 		/**
@@ -347,8 +354,8 @@ package Window
 		 */		
 		private function drawAnimation(_textures : Texture) : void
 		{
-			_cClip.width = _textures.width;
-			_cClip.height = _textures.height;
+			//_cClip.width = _textures.width;
+			//_cClip.height = _textures.height;
 	
 			_cClip.texture = _textures;
 		}
@@ -371,7 +378,11 @@ package Window
 			if(_loadSpriteButton)
 				_loadSpriteButton.release();
 			if(_buttonList)
+			{
 				_buttonList.release();
+				_buttonList = null;
+			}
+				
 			if(_nextButton)
 				_nextButton.release();
 			if(_prevButton)
@@ -381,6 +392,11 @@ package Window
 				
 			this.removeChildren();
 			this.removeEventListeners();
+		}
+		
+		public function getButtonList() : ButtonListClass
+		{
+			return _buttonList;
 		}
 	}
 		

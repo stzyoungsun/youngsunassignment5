@@ -73,6 +73,7 @@ package Component
 			trace(_button.name);
 			// TextField 객체 생성
 			var textField:TextField = new TextField(_button.width, _button.height, buttonText);
+			textField.format.size = 38; 
 			// 버튼 객체의 자식으로 등록
 			_button.addChild(textField);
 		}

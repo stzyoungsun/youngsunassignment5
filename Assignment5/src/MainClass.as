@@ -1,5 +1,9 @@
 package
 {
+	import com.lpesign.Extension;
+	
+	import flash.desktop.NativeApplication;
+	import flash.events.KeyboardEvent;
 	import flash.geom.Rectangle;
 	import flash.ui.Keyboard;
 	
@@ -15,7 +19,6 @@ package
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.events.KeyboardEvent;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -29,12 +32,13 @@ package
 	public class MainClass extends Sprite
 	{
 		private var _cLoader : LoaderClass;
-		private var _cAnimationWindow : AnimationWindow;
-		private var _cImageWindow : ImageWindow;
+		private var _cAnimationWindow : AnimationWindow = null;
+		private var _cImageWindow : ImageWindow = null;
 		private var _componentAtlas : Atlastexture; 
 		
-		private var _backButton :ButtonClass;
 		private var _radioButton : Vector.<RadioButtonClass>;    //라디오 버튼은  Animation/Image Window를 조절 하는 버튼 이므로 Main에 삽입
+		
+		private var _exitToast:Extension = new Extension();
 		public function MainClass()
 		{
 			addEventListener(Event.ADDED_TO_STAGE, initialize);
@@ -45,6 +49,20 @@ package
 			
 			_cLoader = new LoaderClass(completeLoadImage);
 			
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, handleKeys);
+			function handleKeys (e : KeyboardEvent) : void
+			{
+				if(e.keyCode == Keyboard.BACK)
+				{
+					trace("종료");
+					e.preventDefault();
+					
+					if(_cAnimationWindow.getButtonList().getList().visible == true)
+						backButton();
+					else
+						_exitToast.exitDialog(true);
+				}
+			}
 		}
 		/**
 		 *Note @유영선 이미지 로딩 완료 후 AnimationWindow 창 로드  
@@ -63,14 +81,7 @@ package
 			
 			var loadImage : Image = new Image(_componentAtlas.getsubSpriteSheet()["LoadSprite.png"]);
 			
-			if(!_backButton)
-			{
-				_backButton = new ButtonClass(new Rectangle(stage.stageWidth/2+30,stage.stageHeight/2+30, stage.stageWidth/3, stage.stageHeight/10),loadImage,"Back");
-				_backButton.getButton().addEventListener(TouchEvent.TOUCH,onBackClick);
-				
-				addChild(_backButton.getButton());
-			}
-			
+		
 			addChild(_cAnimationWindow);
 		}
 		/**
@@ -79,8 +90,6 @@ package
 		 */		
 		private function drawRadioButton(curTexture : Atlastexture, curBitmap : AtlasBitmap) : void
 		{
-	
-		
 			if(_cImageWindow)
 				_cImageWindow.release();
 			else
@@ -92,8 +101,8 @@ package
 				var RadioOFFImageI:Image = new Image(_componentAtlas.getsubSpriteSheet()["RadioOFF.png"]);
 				var RadioONImageI:Image = new Image(_componentAtlas.getsubSpriteSheet()["RadioON.png"]);
 				
-				_radioButton[0] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*12/14, stage.stageWidth/3, stage.stageHeight/20), RadioONImageA,RadioOFFImageA,"Animation Mode");
-				_radioButton[1] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*13/14,stage.stageWidth/3, stage.stageHeight/20), RadioONImageI,RadioOFFImageI,"Image Mode");	
+				_radioButton[0] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*10/14, stage.stageWidth/14, stage.stageHeight/14), RadioONImageA,RadioOFFImageA,"Animation Mode");
+				_radioButton[1] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*11/14,stage.stageWidth/14, stage.stageHeight/14), RadioONImageI,RadioOFFImageI,"Image Mode");	
 				_radioButton[1].swtichClicked(false);
 				
 				_radioButton[0].getRadioButton().addEventListener(TouchEvent.TOUCH,onRadioClick);
@@ -133,48 +142,37 @@ package
 					return;
 			}
 		}
-		/**
-		 * 
-		 * @param e
-		 * back 버튼 클릭 시 window 창들 삭제 후 재 생성
-		 */		
-		private function onBackClick(e:TouchEvent): void
+		
+		public function backButton() : void
 		{
-			var touch:Touch = e.getTouch(stage,TouchPhase.BEGAN);
-			
-			if(touch)
+			if(_radioButton)
 			{
-				if(_radioButton)
+				for(var i: int =0; i < _radioButton.length; i++)
 				{
-					for(var i: int =0; i < _radioButton.length; i++)
-					{
-						removeChild(_radioButton[i].getRadioButton());
-						_radioButton[i].release();
-						_radioButton[i] = null;
-						
-					}
-					_radioButton = null;
-				}
-				_backButton.clickedONMotion();
-				if(_cAnimationWindow)
-				{
-					_cAnimationWindow.release();
-					_cAnimationWindow = null;
-				}
+					removeChild(_radioButton[i].getRadioButton());
+					_radioButton[i].release();
+					_radioButton[i] = null;
 					
-				
-				if(_cImageWindow)
-				{
-					_cImageWindow.release();
-					_cImageWindow = null;
 				}
-					
-				
-				initWindow();
+				_radioButton = null;
 			}
-			else
-				_backButton.clickedOFFMotion();
+			if(_cAnimationWindow)
+			{
+				_cAnimationWindow.release();
+				_cAnimationWindow = null;
+			}
+			
+			
+			if(_cImageWindow)
+			{
+				_cImageWindow.release();
+				_cImageWindow = null;
+			}
+			
+			
+			initWindow();
 		}
+
 		public function release() : void 
 		{
 			// TODD @유영선 해제 필요 하면 여기다 추가
@@ -185,6 +183,11 @@ package
 			
 			this.removeChildren();
 			this.removeEventListeners();
+		}
+		
+		public function getWindow() : AnimationWindow
+		{
+			return _cAnimationWindow;
 		}
 	}
 }
