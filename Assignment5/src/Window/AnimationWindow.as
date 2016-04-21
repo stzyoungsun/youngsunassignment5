@@ -14,7 +14,6 @@ package Window
 	import Animaiton.Atlastexture;
 	
 	import Component.ButtonClass;
-	import Component.ButtonListClass;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -36,12 +35,12 @@ package Window
 		private var _startButton : ButtonClass;
 		private var _stopButton : ButtonClass;
 		private var _loadSpriteButton : ButtonClass;
-		private var _buttonList : ButtonListClass = null;
-		private var _nextButton : ButtonClass;
-		private var _prevButton : ButtonClass;
+		private var _listCallButton : ButtonClass;
+		
 		private var _fastButton : ButtonClass;
 		private var _slowButton : ButtonClass;
 		private var _vewImage : Image;
+		
 		
 		private var _loadFile:File = new File(); 
 		private var _cClip : AnimaitonClip;
@@ -51,8 +50,10 @@ package Window
 		
 		private var _fpsTextField : TextField; 
 		private var _fpsCount : int =30;
+		private var _pngNameArray : Array = new Array();
 		
 		private var _fileDialg:Extension; 
+		private var _curSelTextField : TextField;
 		/**
 		 * 
 		 * @param posx 윈도우 x 값
@@ -67,6 +68,9 @@ package Window
 		{
 			_fileDialg= new Extension(drawSprite);
 			_windowRect = new Rectangle(posx, posy, width, height);
+			
+			_curSelTextField = new TextField(_windowRect.width,_windowRect.height/20,"");
+			
 			_componentDictionary = componentDictionary;
 			_createImagewindow = createImagewindow;
 			addEventListener(starling.events.Event.ADDED_TO_STAGE, onDrawWindow);
@@ -88,7 +92,8 @@ package Window
 			var nextImage:Image = new Image(_componentDictionary["Next.png"]);
 			var prevImage:Image = new Image(_componentDictionary["prev.png"]);
 			var loadImage : Image = new Image(_componentDictionary["LoadSprite.png"]);
-			var buttonListImage : Image = new Image(_componentDictionary["List.png"]);
+			var ListCallButtonImage : Image = new Image(_componentDictionary["LoadSprite.png"]);
+			
 			var fastImage:Image = new Image(_componentDictionary["fast.png"]);
 			var slowImage:Image = new Image(_componentDictionary["down.png"]);
 			
@@ -101,20 +106,17 @@ package Window
 			_stopButton = new ButtonClass(new Rectangle(_windowRect.width*8/10, _windowRect.height*3/5, _windowRect.width/14, _windowRect.height/14),stopImage);
 			
 			_loadSpriteButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+35,_windowRect.width*3/10, _windowRect.height/8),loadImage,"LoadDic SpriteSheets");
-			
-			_nextButton = new ButtonClass(new Rectangle(_windowRect.width/4, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),nextImage);
-			_prevButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),prevImage);
+			_listCallButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+35,_windowRect.width*3/10, _windowRect.height/8),ListCallButtonImage,"SprteSheet 선택");
 			
 			_fastButton = new ButtonClass(new Rectangle(_windowRect.width*8/10, _windowRect.height/2+30, _windowRect.width/14, _windowRect.height/14),fastImage);
 			_slowButton = new ButtonClass(new Rectangle(_windowRect.width*6/10,_windowRect.height/2+30, _windowRect.width/14, _windowRect.height/14),slowImage);
 			
-			_buttonList = new ButtonListClass(new Rectangle(_windowRect.x, _nextButton.getButton().y+_nextButton.getButton().height, _windowRect.width/2, _windowRect.height*1/3),buttonListImage,drawSprite);
-			
-			_buttonList.getList().visible = false;
 			_startButton.getButton().visible = false;
 			_stopButton.getButton().visible = false;
 			_fastButton.getButton().visible = false;
 			_slowButton.getButton().visible = false;
+			_listCallButton.getButton().visible = false;
+			
 			_fpsTextField.x = _windowRect.width/30;
 			_fpsTextField.y = _windowRect.height/30;
 			
@@ -126,15 +128,15 @@ package Window
 			addChild(_fastButton.getButton());
 			addChild(_slowButton.getButton());
 			addChild(_fpsTextField);
-			
+			addChild(_listCallButton.getButton());
+			addChild(_curSelTextField);
 			
 			_loadSpriteButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
-			_nextButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
-			_prevButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 			_startButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 			_stopButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 			_fastButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 			_slowButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
+			_listCallButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 		}
 		/**
 		 * 
@@ -153,20 +155,10 @@ package Window
 						_loadSpriteButton.clickedONMotion();
 						CreateAnimation();
 						break;
-					case _nextButton.getButton():  //다음 리스트를 보여주기 위한 부분
-						_nextButton.clickedONMotion()
-						_viewButtonCnt+=3;
-						if(_viewButtonCnt >= _cSpriteLoader.getspriteName().length)
-							_viewButtonCnt -= 3;
-						viewListButton();
-						break;
-					case _prevButton.getButton():  //이전 리스트를 보여주기 위한 부분
-						_prevButton.clickedONMotion()
-						_viewButtonCnt-=3;
-						if(_viewButtonCnt < 0)
-							_viewButtonCnt = 0;
-						viewListButton();
-						break;
+					case _listCallButton.getButton():
+						_listCallButton.clickedONMotion();
+						_fileDialg.listDialog(_pngNameArray);
+						break;	
 					case _startButton.getButton():
 						_startButton.clickedONMotion();
 						_fpsTextField.text = "fps : " + _fpsCount as String;
@@ -205,11 +197,8 @@ package Window
 					case _loadSpriteButton.getButton():
 						_loadSpriteButton.clickedOFFMotion();
 						break;
-					case _nextButton.getButton():  //다음 리스트를 보여주기 위한 부분
-						_nextButton.clickedOFFMotion();
-						break;
-					case _prevButton.getButton():  //이전 리스트를 보여주기 위한 부분
-						_prevButton.clickedOFFMotion();
+					case _listCallButton.getButton():
+						_listCallButton.clickedOFFMotion();
 						break;
 					case _startButton.getButton():
 						_startButton.clickedOFFMotion();
@@ -232,7 +221,6 @@ package Window
 		 */		
 		private function CreateAnimation() : void
 		{
-			//_fileDialg.fileDialog(true);
 			_loadFile = File.applicationDirectory;
 			_loadFile.browseForOpenMultiple("Select SpriteSheet PNG Files");
 			_loadFile.addEventListener(FileListEvent.SELECT_MULTIPLE, onFilesSelected);
@@ -247,7 +235,6 @@ package Window
 			_loadFile.removeEventListener(flash.events.Event.SELECT, onFilesSelected);
 			var arr : Array = new Array();
 			arr = e.files;
-			_buttonList.getList().visible = true;
 			_cSpriteLoader = new LoaderClass(loadList,arr);
 		}
 		
@@ -257,67 +244,20 @@ package Window
 		 */		
 		private function loadList(): void
 		{	
-			var string : Array = new Array;
-			
+	
 			for(var i: int =0 ; i< _cSpriteLoader.getspriteName().length; i++)
 			{
-				string[i] = _cSpriteLoader.getspriteName()[i];
+				_pngNameArray[i] = _cSpriteLoader.getspriteName()[i];
 			}
 			
-			_fileDialg.listDialog(string);
 			
 			trace("Sprite Sheet 로드 완료");
 			removeChild(_loadSpriteButton.getButton());
 			_loadSpriteButton.getButton().removeEventListeners();
 			
-			addChild(_buttonList.getList());
-			addChild(_nextButton.getButton());
-			addChild(_prevButton.getButton());
-			
-			addSheetButton();
+			_listCallButton.getButton().visible = true;
 		}
-		/**
-		 * 버튼 리스트 안에있는 SpriteSheet 개수만큼 등록 
-		 * 
-		 */		
-		private function addSheetButton() : void
-		{
-			var buttonPos : int = 0;
-			
-			for(var i :int = 0; i < _cSpriteLoader.getspriteName().length; i++)
-			{
-				trace(_cSpriteLoader.getspriteName()[i]);
-				var button :ButtonClass = new ButtonClass(new Rectangle(0,0,_buttonList.getList().width*6/7,_buttonList.getList().height*3/8),new Image(_componentDictionary["LoadSprite.png"]),_cSpriteLoader.getspriteName()[i])
-				_buttonList.addButton(button.getButton(),30,button.getButton().height/2+buttonPos*button.getButton().height/2);
-				button.getButton().visible = false;
-				
-				
-				if(buttonPos == 2)
-					buttonPos = 0;
-				else 
-					buttonPos++;
-			}
-			viewListButton();
-		}
-		/**
-		 * 리스트에 버튼을 뿌려주기 위한 함수 
-		 * 
-		 */		
-		private function viewListButton() : void
-		{
-			//한 리스트에 3개씩 뿌려주고 Next Prev 버튼을 누를 때마다 그 다음 버튼을 보여줍니다.
-			var endCount : int = _viewButtonCnt + 3;   
-			for(var i :int = 0; i < _cSpriteLoader.getspriteName().length; i++)
-			{
-				_buttonList.getButton()[i].visible = false;
-			}
-			if(endCount > _cSpriteLoader.getspriteName().length) endCount = _cSpriteLoader.getspriteName().length;
-				
-			for(var j :int = _viewButtonCnt; j < endCount; j++)
-			{
-				_buttonList.getButton()[j].visible = true;
-			}
-		}
+
 		/**
 		 * 
 		 * @param spriteName 선택 된 Sprtie의 Subtexture의 이름
@@ -325,10 +265,18 @@ package Window
 		 */		
 		private function drawSprite(spriteName : String) : void
 		{
+			var curSelText : String = "";
+			
 			var spritexml : String = spriteName.replace("png","xml");
 			var spriteImage : Image = new Image(Texture.fromBitmap(_cSpriteLoader.getSpriteSheetDictionary()[spriteName]));
 			var subTexture : Atlastexture = new Atlastexture(Texture.fromBitmap(_cSpriteLoader.getSpriteSheetDictionary()[spriteName]),_cSpriteLoader.getxmlDictionary()[spritexml]);
 			var subBitmap : AtlasBitmap = new AtlasBitmap(_cSpriteLoader.getSpriteSheetDictionary()[spriteName],_cSpriteLoader.getxmlDictionary()[spritexml]);
+			
+			curSelText = "현재 선택 된 SpriteSheet : "+spriteName;
+			_curSelTextField.text = curSelText;
+			_curSelTextField.x = _listCallButton.getButton().x/2;
+			_curSelTextField.y = _listCallButton.getButton().y+_listCallButton.getButton().height+_startButton.getButton().height/2;
+			_curSelTextField.format.size = 40;
 			
 			_fastButton.getButton().visible = true;
 			_slowButton.getButton().visible = true;
@@ -364,16 +312,9 @@ package Window
 		 */		
 		private function drawAnimation(_textures : Texture) : void
 		{
-			//_cClip.width = _textures.width;
-			//_cClip.height = _textures.height;
-	
 			_cClip.texture = _textures;
 		}
 		
-		public function getButtonlist() : ButtonListClass
-		{
-			return _buttonList;
-		}
 		
 		public function release() : void
 		{
@@ -387,16 +328,7 @@ package Window
 				_stopButton.release();
 			if(_loadSpriteButton)
 				_loadSpriteButton.release();
-			if(_buttonList)
-			{
-				_buttonList.release();
-				_buttonList = null;
-			}
-				
-			if(_nextButton)
-				_nextButton.release();
-			if(_prevButton)
-				_prevButton.release();
+
 			if(_loadFile)
 				_loadFile.removeEventListener(flash.events.Event.SELECT,onFilesSelected);
 				
@@ -404,9 +336,9 @@ package Window
 			this.removeEventListeners();
 		}
 		
-		public function getButtonList() : ButtonListClass
-		{
-			return _buttonList;
+	public function getListCallButton() : ButtonClass
+	{
+			return _listCallButton;
 		}
 	}
 		
