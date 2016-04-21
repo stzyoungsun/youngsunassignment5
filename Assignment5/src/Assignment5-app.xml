@@ -311,12 +311,16 @@
     </iPhone>
 <extensions>
         
-    <extensionID>com.lpesign.Extension</extensionID>
+    
     
     
     
     
     
     <extensionID>ane.Extension</extensionID>
+    
+    
+    
+    <extensionID>com.lpesign.Extension</extensionID>
     </extensions>
 </application>

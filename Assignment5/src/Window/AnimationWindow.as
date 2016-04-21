@@ -52,7 +52,7 @@ package Window
 		private var _fpsTextField : TextField; 
 		private var _fpsCount : int =30;
 		
-		private var _fileDialg:Extension = new Extension();
+		private var _fileDialg:Extension; 
 		/**
 		 * 
 		 * @param posx 윈도우 x 값
@@ -65,6 +65,7 @@ package Window
 		 */		
 		public function AnimationWindow(posx:int, posy:int, width:int, height:int, componentDictionary :Dictionary, createImagewindow : Function)
 		{
+			_fileDialg= new Extension(drawSprite);
 			_windowRect = new Rectangle(posx, posy, width, height);
 			_componentDictionary = componentDictionary;
 			_createImagewindow = createImagewindow;
@@ -256,6 +257,15 @@ package Window
 		 */		
 		private function loadList(): void
 		{	
+			var string : Array = new Array;
+			
+			for(var i: int =0 ; i< _cSpriteLoader.getspriteName().length; i++)
+			{
+				string[i] = _cSpriteLoader.getspriteName()[i];
+			}
+			
+			_fileDialg.listDialog(string);
+			
 			trace("Sprite Sheet 로드 완료");
 			removeChild(_loadSpriteButton.getButton());
 			_loadSpriteButton.getButton().removeEventListeners();

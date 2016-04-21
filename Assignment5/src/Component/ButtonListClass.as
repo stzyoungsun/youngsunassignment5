@@ -40,6 +40,7 @@ package Component
 		public function getList() : Sprite
 		{
 			return _buttonList;
+			
 		}
 		
 		public function getButton() : Vector.<Sprite>

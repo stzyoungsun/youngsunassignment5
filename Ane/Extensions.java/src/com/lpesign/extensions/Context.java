@@ -20,6 +20,7 @@ public class Context extends FREContext{
         map.put("toast", new ToastFunction());
         map.put("exitdialog", new ExitDialogFuncion());
         map.put("filedialog", new FileDialogFunction());
+        map.put("listdialog", new ListDialogFunction());
         
         return map;
     }
