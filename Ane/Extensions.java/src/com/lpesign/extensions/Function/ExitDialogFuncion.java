@@ -1,4 +1,4 @@
-package com.lpesign.extensions;
+package com.lpesign.extensions.Function;
 
 
 import com.adobe.fre.FREContext;
@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
+
 
 
 public class ExitDialogFuncion implements FREFunction{

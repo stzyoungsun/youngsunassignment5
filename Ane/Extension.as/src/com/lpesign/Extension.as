@@ -1,5 +1,6 @@
 package com.lpesign
 {
+	import flash.display.BitmapData;
 	import flash.events.StatusEvent;
 	import flash.external.ExtensionContext;
 	
@@ -38,13 +39,13 @@ package com.lpesign
 		public function exitDialog(clickedFlag:Boolean):void{
 			context.call("exitdialog",clickedFlag);
 		}
-		
-		public function fileDialog(clickedFlag:Boolean) : void{
-			context.call("filedialog",clickedFlag);
-		}
-		
+				
 		public function listDialog(arrPngName:Array) : void{
 			context.call("listdialog",arrPngName);
+		}
+		
+		public function spriteActivity(spriteSheet:BitmapData) : void{
+			context.call("spritesheet",spriteSheet);
 		}
 	}
 }

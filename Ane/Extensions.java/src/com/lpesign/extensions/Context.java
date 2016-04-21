@@ -5,8 +5,13 @@ import java.util.Map;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
+import com.lpesign.extensions.Function.ExitDialogFuncion;
+import com.lpesign.extensions.Function.ListDialogFunction;
+import com.lpesign.extensions.Function.SpriteSheetFunction;
+import com.lpesign.extensions.Function.ToastFunction;
 
 public class Context extends FREContext{
+
 	@Override
     public void dispose() {
         // TODO Auto-generated method stub
@@ -18,10 +23,12 @@ public class Context extends FREContext{
         // TODO Auto-generated method stub
         Map<String, FREFunction> map = new HashMap<String, FREFunction>();
         map.put("toast", new ToastFunction());
-        map.put("exitdialog", new ExitDialogFuncion());
-        map.put("filedialog", new FileDialogFunction());
-        map.put("listdialog", new ListDialogFunction());
-        
+        map.put("exitdialog",new ExitDialogFuncion());
+        map.put("listdialog",new ListDialogFunction());
+		map.put("spritesheet",new SpriteSheetFunction());
+		
         return map;
     }
+    
+    
 }

@@ -1,6 +1,5 @@
-package com.lpesign.extensions;
+package com.lpesign.extensions.Function;
 
-import java.io.File;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
@@ -10,10 +9,10 @@ import com.adobe.fre.FRETypeMismatchException;
 import com.adobe.fre.FREWrongThreadException;
 import com.adobe.fre.FREArray;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.widget.Toast;
+
 
 public class ListDialogFunction implements FREFunction{
 	private FREContext _flashContext;
@@ -57,16 +56,12 @@ public class ListDialogFunction implements FREFunction{
                 new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     // 각 리스트를 선택했을때 
-                		
-                	Toast.makeText(_flashContext.getActivity(), "num : " + whichButton , Toast.LENGTH_LONG).show();	
                 	_flashContext.dispatchStatusEventAsync("eventCode",_convertArg[whichButton]);
                 }
                 });
         builder.show();
         
-        
-
-             
+   
         return null;
         
 	}
