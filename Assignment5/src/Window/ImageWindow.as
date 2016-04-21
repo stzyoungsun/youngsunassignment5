@@ -22,13 +22,13 @@ package Window
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import starling.text.TextField;
 	import starling.textures.Texture;
 
 	public class ImageWindow extends Sprite
 	{
 		private var _cAddImageLoader: LoaderClass;
 		
-		private var _buttonListImage : Image;
 		
 		private var _componentDictionary: Dictionary;	//컴포넌트 이미지
 		private var _curTexture : Atlastexture; 	//사용자가 로드한 SprtieSheet 안에 의미지
@@ -36,16 +36,20 @@ package Window
 		private var _windowRect : Rectangle;
 		private var _vewImage : Image;
 		
-		private var _nextButton : ButtonClass;
-		private var _prevButton : ButtonClass;
 		private var _addButton : ButtonClass;
-		private var _buttonList : ButtonListClass;
+		private var _listCallButton : ButtonClass;
 		private var _makeSheet : ButtonClass;		//추가된 이미지를 이용하여 Sprtie Sheet를 재 생성
 		
 		private var _curImage : Image;
 		private var _viewButtonCnt : int = 0;
 		
+		private var _fileDialg:Extension; 
 		private var _stateToast:Extension = new Extension();
+		
+		private var _pngNameArray : Array = new Array();
+		
+		private var _curSelTextField : TextField;
+		
 		/**
 		 * 
 		 * @param posx 윈도우 위치
@@ -60,11 +64,16 @@ package Window
 		public function ImageWindow(posx:int, posy:int, width:int, height:int, componentDictionary :Dictionary
 									,curTexture : Atlastexture ,curBitmap : AtlasBitmap)
 		{
+			_fileDialg= new Extension(drawSprite);
 			_windowRect = new Rectangle(posx, posy, width, height);
+			
+			_curSelTextField = new TextField(_windowRect.width,_windowRect.height/20,"");
+			
 			_componentDictionary = componentDictionary;
 			_curTexture = curTexture;
 			_curBitmap = curBitmap;
 			addEventListener(starling.events.Event.ADDED_TO_STAGE, onDrawWindow);
+			curTextureToArray();
 		}
 		
 		public function onDrawWindow(e:starling.events.Event) : void
@@ -74,7 +83,7 @@ package Window
 			var nextImage:Image = new Image(_componentDictionary["Next.png"]);
 			var prevImage:Image = new Image(_componentDictionary["prev.png"]);
 			var addImage : Image = new Image(_componentDictionary["LoadSprite.png"]);
-			_buttonListImage = new Image(_componentDictionary["List.png"]);
+			var listCallButtonImage : Image = new Image(_componentDictionary["LoadSprite.png"]);
 			var makeButtonImage : Image  = new Image(_componentDictionary["LoadSprite.png"]);
 			
 			_vewImage.x = _windowRect.x;
@@ -82,23 +91,19 @@ package Window
 			_vewImage.width = _windowRect.width;
 			_vewImage.height = _windowRect.height/2;
 			
-			_nextButton = new ButtonClass(new Rectangle(_windowRect.width/4, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),nextImage);
-			_prevButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+30, _windowRect.width/10, _windowRect.height/10),prevImage);
 			_addButton = new ButtonClass(new Rectangle(_windowRect.width/2, _windowRect.height/2+30, _windowRect.width/4,  _windowRect.height/10),addImage, "이미지 추가");
 			_makeSheet = new ButtonClass(new Rectangle(_windowRect.width*3/4, _windowRect.height/2+30, _windowRect.width/4, _windowRect.height/10),makeButtonImage, "Remake Sprite Sheet");
 			_makeSheet.getButton().visible = false;
+			_listCallButton = new ButtonClass(new Rectangle(_windowRect.width/10, _windowRect.height/2+35,_windowRect.width*3/10, _windowRect.height/8),listCallButtonImage,"이미지 선택");
+			
 			
 			addChild(_vewImage);
 			addChild(_addButton.getButton());
-			addChild(_nextButton.getButton());
-			addChild(_prevButton.getButton());
 			addChild(_makeSheet.getButton());
-			
-			_nextButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
-			_prevButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
+			addChild(_listCallButton.getButton());
+			addChild(_curSelTextField);
 			_addButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
-			
-			addSheetButton();
+			_listCallButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 		}
 		
 		/**
@@ -114,24 +119,17 @@ package Window
 			{
 				switch(e.currentTarget)
 				{
-					case _nextButton.getButton():  //다음 리스트를 보여주기 위한 부분
-						_nextButton.clickedONMotion();
-						_viewButtonCnt+=3;
-						if(_viewButtonCnt >= _curTexture.getsubTextureName().length)
-							_viewButtonCnt -= 3;
-						viewListButton();
+					case _listCallButton.getButton():
+						_listCallButton.clickedONMotion();
+						_fileDialg.listDialog(_pngNameArray);
+						
 						break;
-					case _prevButton.getButton():  //이전 리스트를 보여주기 위한 부분
-						_prevButton.clickedONMotion();
-						_viewButtonCnt-=3;
-						if(_viewButtonCnt < 0)
-							_viewButtonCnt = 0;
-						viewListButton();
-						break;
+			
 					case _addButton.getButton():
 						_addButton.clickedONMotion();
 						addImage();
 						break;
+					
 					case _makeSheet.getButton():
 						_makeSheet.clickedONMotion();
 						_stateToast.toast("이미지 병합 중 입니다.");
@@ -146,15 +144,14 @@ package Window
 			{
 				switch(e.currentTarget)
 				{
-					case _nextButton.getButton():
-						_nextButton.clickedOFFMotion();
+					case _listCallButton.getButton():
+						_listCallButton.clickedOFFMotion();
 						break;
-					case _prevButton.getButton():  //다음 리스트를 보여주기 위한 부분
-						_prevButton.clickedOFFMotion();
-						break;
+					
 					case _addButton.getButton():  //이전 리스트를 보여주기 위한 부분
 						_addButton.clickedOFFMotion();
 						break;
+					
 					case _makeSheet.getButton():
 						_makeSheet.clickedOFFMotion();
 						break;
@@ -195,58 +192,17 @@ package Window
 				_curTexture.addSubTexure(newTexture,_cAddImageLoader.getspriteName()[i]);
 				_curBitmap.addSubBitmap(_cAddImageLoader.getSpriteSheetDictionary()[_cAddImageLoader.getspriteName()[i]],_cAddImageLoader.getspriteName()[i]);
 			}
-				
-			_buttonList.release();
-			
-			_buttonList = null;
-			addSheetButton();
+			curTextureToArray();	
 		}
-		/**
-		 * 버튼 리스트 안에있는 SpriteSheet 개수만큼 등록 
-		 * 
-		 */		
-		private function addSheetButton() : void
+		
+		private function curTextureToArray() : void
 		{
-			if(!_buttonList)
+			for(var i: int =0 ; i< _curTexture.getsubTextureName().length; i++)
 			{
-				_buttonList = new ButtonListClass(new Rectangle(_windowRect.x, _nextButton.getButton().y+_nextButton.getButton().height,_windowRect.width/2 ,_windowRect.height*1/3 ),_buttonListImage,drawSprite);
-				addChild(_buttonList.getList());
-			}
-				
-			var buttonPos : int = 0;
-			
-			for(var i :int = 0; i < _curTexture.getsubVector().length; i++)
-			{
-				var button :ButtonClass = new ButtonClass(new Rectangle(0,0,_buttonList.getList().width*6/7,_buttonList.getList().height*3/8),new Image(_componentDictionary["LoadSprite.png"]),_curTexture.getsubTextureName()[i]);
-				_buttonList.addButton(button.getButton(),30,button.getButton().height/2+buttonPos*button.getButton().height/2);
-				button.getButton().visible = false;	
-					
-				if(buttonPos == 2)
-					buttonPos = 0;
-				else 
-					buttonPos++;
-			}
-			viewListButton();
-		}
-		/**
-		 * 리스트에 버튼을 뿌려주기 위한 함수 
-		 * 
-		 */		
-		private function viewListButton() : void
-		{
-			//한 리스트에 3개씩 뿌려주고 Next Prev 버튼을 누를 때마다 그 다음 버튼을 보여줍니다.
-			var endCount : int = _viewButtonCnt + 3;   
-			for(var i :int = 0; i < _curTexture.getsubTextureName().length; i++)
-			{
-				_buttonList.getButton()[i].visible = false;
-			}
-			if(endCount > _curTexture.getsubTextureName().length) endCount = _curTexture.getsubTextureName().length;
-			
-			for(var j :int = _viewButtonCnt; j < endCount; j++)
-			{
-				_buttonList.getButton()[j].visible = true;
+				_pngNameArray[i] = _curTexture.getsubTextureName()[i];
 			}
 		}
+		
 		/**
 		 * 
 		 * @param spriteName 선택 된 리스튼 버튼에 들어 있는 이미지 이름
@@ -255,11 +211,17 @@ package Window
 		private function drawSprite(spriteName : String) : void
 		{
 			trace (spriteName);
-			
+			 var curSelText : String = "";
+			 
 			if(_curImage)
 			{
 				removeChild(_curImage);
 			}
+			curSelText = "현재 선택 된 이미지 : "+spriteName;
+			_curSelTextField.text = curSelText;
+			_curSelTextField.x = _listCallButton.getButton().x/2;
+			_curSelTextField.y = _listCallButton.getButton().y+_listCallButton.getButton().height;+30;
+			_curSelTextField.format.size = 40;
 			
 			_curImage = new Image(_curTexture.getsubSpriteSheet()[spriteName]);
 			_curImage.width =_vewImage.width/4;
@@ -274,13 +236,7 @@ package Window
 		{
 			// TODD @유영선 해제 필요 하면 여기다 추가
 			trace("이미지 윈도우 해제");
-			if(_nextButton)
-				_nextButton.release();
-			if(_prevButton)
-				_prevButton.release();
-			if(_buttonList)
-				_buttonList.release();
-			
+
 			this.removeChildren();
 			this.removeEventListeners();
 		}
