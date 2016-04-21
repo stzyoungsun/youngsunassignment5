@@ -57,7 +57,7 @@ package
 					trace("종료");
 					e.preventDefault();
 					
-					if(_cAnimationWindow.getButtonList().getList().visible == true)
+					if(_cAnimationWindow.getListCallButton().getButton().visible == true)
 						backButton();
 					else
 						_exitToast.exitDialog(true);
@@ -101,8 +101,8 @@ package
 				var RadioOFFImageI:Image = new Image(_componentAtlas.getsubSpriteSheet()["RadioOFF.png"]);
 				var RadioONImageI:Image = new Image(_componentAtlas.getsubSpriteSheet()["RadioON.png"]);
 				
-				_radioButton[0] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*10/14, stage.stageWidth/14, stage.stageHeight/14), RadioONImageA,RadioOFFImageA,"Animation Mode");
-				_radioButton[1] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*11/14,stage.stageWidth/14, stage.stageHeight/14), RadioONImageI,RadioOFFImageI,"Image Mode");	
+				_radioButton[0] = new RadioButtonClass(new Rectangle(30, stage.stageHeight*10/13, stage.stageWidth/14, stage.stageHeight/14), RadioONImageA,RadioOFFImageA,"Animation Mode");
+				_radioButton[1] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*10/13,stage.stageWidth/14, stage.stageHeight/14), RadioONImageI,RadioOFFImageI,"Image Mode");	
 				_radioButton[1].swtichClicked(false);
 				
 				_radioButton[0].getRadioButton().addEventListener(TouchEvent.TOUCH,onRadioClick);

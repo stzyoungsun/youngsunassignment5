@@ -60,7 +60,7 @@ package Component
 			var textField:TextField = new TextField(_radioButtonONImage.width*4, _radioButtonONImage.height, _radioButtonText);
 			textField.format.size = 38;
 			textField.x = _radioButtonONImage.width*2;
-	
+			textField.border = true;
 			// 버튼 객체의 자식으로 등록
 			_radioButton.addChild(textField);
 		}

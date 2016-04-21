@@ -51,7 +51,7 @@ public class ListDialogFunction implements FREFunction{
         
         AlertDialog.Builder builder = new AlertDialog.Builder(_flashContext.getActivity());
     	
-        builder.setTitle("111");
+        builder.setTitle("화면에 출력 할 파일을 클릭해주세요.");
         
         builder.setItems(_convertArg,
                 new DialogInterface.OnClickListener() {
