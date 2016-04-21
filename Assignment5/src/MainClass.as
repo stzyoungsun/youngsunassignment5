@@ -10,7 +10,6 @@ package
 	import Animaiton.AtlasBitmap;
 	import Animaiton.Atlastexture;
 	
-	import Component.ButtonClass;
 	import Component.RadioButtonClass;
 	
 	import Window.AnimationWindow;

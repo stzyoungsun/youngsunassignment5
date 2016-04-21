@@ -3,6 +3,7 @@ package Window
 
 	import com.lpesign.Extension;
 	
+	import flash.display.Bitmap;
 	import flash.events.Event;
 	import flash.events.FileListEvent;
 	import flash.filesystem.File;
@@ -53,6 +54,8 @@ package Window
 		private var _pngNameArray : Array = new Array();
 		
 		private var _fileDialg:Extension; 
+		private var _fileDialg1:Extension = new  Extension();
+		
 		private var _curSelTextField : TextField;
 		/**
 		 * 
@@ -85,6 +88,7 @@ package Window
 		public function onDrawWindow(e:starling.events.Event) : void
 		{
 			
+		
 			_vewImage = new Image(_componentDictionary["Window.png"]);
 			
 			var startImage:Image = new Image(_componentDictionary["Start.png"]);
@@ -188,6 +192,10 @@ package Window
 						_fpsTextField.text = "fps : " + _fpsCount as String;
 						_cClip.getTimer().delay = 1000/_fpsCount;	
 						break;
+					case _cClip:
+						_fileDialg1.spriteActivity(_cClip.getSpriteSheet().bitmapData);
+						trace("123");
+						break
 				}
 			}
 			else if(e.getTouch(stage,TouchPhase.ENDED))
@@ -196,6 +204,7 @@ package Window
 				{
 					case _loadSpriteButton.getButton():
 						_loadSpriteButton.clickedOFFMotion();
+						
 						break;
 					case _listCallButton.getButton():
 						_listCallButton.clickedOFFMotion();
@@ -297,7 +306,8 @@ package Window
 				_createImagewindow(subTexture, subBitmap);
 			}
 				
-			_cClip= new AnimaitonClip(subTexture.getsubVector(),30,drawAnimation);
+			_cClip= new AnimaitonClip(subTexture.getsubVector(),30,drawAnimation,_cSpriteLoader.getSpriteSheetDictionary()[spriteName]);
+			_cClip.addEventListener(TouchEvent.TOUCH,onButtonClick);
 			_cClip.width =_vewImage.width/4;
 			_cClip.height =_vewImage.height/4;
 			_cClip.x = _vewImage.width/2 - _cClip.width/2;

@@ -10,26 +10,27 @@
   </features>
   <libraries>
     <library path="library.swf">
-      <script name="com/lpesign/Extension" mod="1461210460386" signatureChecksum="2348641385" >
+      <script name="_232043dd2df5d72ed2395362545a0f49164cb8d10ec9d86e2d6efc467138d02e_flash_display_Sprite" mod="1461239550657" signatureChecksum="4091509203" >
+        <def id="_232043dd2df5d72ed2395362545a0f49164cb8d10ec9d86e2d6efc467138d02e_flash_display_Sprite" /> 
+        <dep id="flash.system:Security" type="e" /> 
+        <dep id="AS3" type="n" /> 
+        <dep id="flash.display:Sprite" type="i" /> 
+      </script>
+      <script name="com/lpesign/Extension" mod="1461237312888" signatureChecksum="3269425428" >
         <def id="com.lpesign:Extension" /> 
         <dep id="trace" type="e" /> 
         <dep id="flash.events:StatusEvent" type="e" /> 
         <dep id="flash.external:ExtensionContext" type="e" /> 
         <dep id="Error" type="e" /> 
+        <dep id="flash.display:BitmapData" type="s" /> 
         <dep id="flash.events:StatusEvent" type="s" /> 
         <dep id="flash.external:ExtensionContext" type="s" /> 
         <dep id="Error" type="s" /> 
         <dep id="AS3" type="n" /> 
         <dep id="Object" type="i" /> 
       </script>
-      <script name="_1105cc2ba1b3a1643b7e9a2f280612258639be223b38dbf24c6916a8d80ea425_flash_display_Sprite" mod="1461210460517" signatureChecksum="2596763961" >
-        <def id="_1105cc2ba1b3a1643b7e9a2f280612258639be223b38dbf24c6916a8d80ea425_flash_display_Sprite" /> 
-        <dep id="flash.system:Security" type="e" /> 
-        <dep id="AS3" type="n" /> 
-        <dep id="flash.display:Sprite" type="i" /> 
-      </script>
       <digests>
-        <digest type="SHA-256" signed="false" value="0197534dbb9eb8d7b5f72b044001861da051845e22e5e20a210554d324a96514"   />
+        <digest type="SHA-256" signed="false" value="78f32d0cd086729802278f8fd6371f9966abad3f3ab0c8f6ab4047ad548098f2"   />
       </digests>
     </library>
   </libraries>

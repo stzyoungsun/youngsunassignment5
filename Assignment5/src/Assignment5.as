@@ -1,14 +1,11 @@
 package
 {
 
-	import com.lpesign.Extension;
-	
-	import flash.desktop.NativeApplication;
+
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
-	import flash.events.KeyboardEvent;
-	import flash.ui.Keyboard;
+
 	
 	import starling.core.Starling;
 

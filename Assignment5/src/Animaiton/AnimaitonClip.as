@@ -1,6 +1,7 @@
 package Animaiton
 {
 
+	import flash.display.Bitmap;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
@@ -13,10 +14,11 @@ package Animaiton
 		private var _timer : Timer;
 		private var _ImageNum : int = 0;
 		private var _textures : Vector.<Texture >;
-		
-		public function AnimaitonClip(textures:Vector.<Texture > ,fps:Number,animation:Function)
+		private var _spriteSheet : Bitmap = new Bitmap();
+		public function AnimaitonClip(textures:Vector.<Texture > ,fps:Number,animation:Function,spriteSheet:Bitmap)
 		{
 			super(textures[0]);
+			_spriteSheet = spriteSheet;
 			_textures = textures;
 			_timer = new Timer(1000/fps,0);
 			
@@ -51,6 +53,11 @@ package Animaiton
 		public function getTimer() : Timer
 		{
 			return _timer;
+		}
+		
+		public function getSpriteSheet() : Bitmap
+		{
+			return _spriteSheet;
 		}
 		
 	}
