@@ -1,5 +1,7 @@
 package
 {
+	import com.lpesign.Extension;
+	
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
@@ -8,7 +10,6 @@ package
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
-	import com.lpesign.Extension;
 
 	
 	public class LoaderClass
@@ -25,8 +26,8 @@ package
 		private var _spriteSheetDictionary : Dictionary = new Dictionary();
 		private var _xmlDictionary : Dictionary = new Dictionary;
 		
-		private var _spriteName : Vector.<String> = new Vector.<String>; 
-		private var _xmlName : Vector.<String> = new Vector.<String>;  //XML 한 개씩 출력으르 조절 하기 위한 변수
+		private var _spriteNames : Vector.<String> = new Vector.<String>; 
+		private var _xmlNames : Vector.<String> = new Vector.<String>;  //XML 한 개씩 출력으르 조절 하기 위한 변수
 		
 		private var _urlArray:Array = new Array();					//파일명이 담긴 배열
 		private var _fileDataArray:Array = new Array();			   //파일이 담김 배열
@@ -35,6 +36,7 @@ package
 		
 		private var _isXml : Boolean; //xml 존재 여부
 		private var _errorToast:Extension = new Extension();
+		
 		public function LoaderClass(completeFunction : Function)
 		{
 			_completeFunction = completeFunction;
@@ -97,7 +99,7 @@ package
 				{
 					if(_selectPath == null)
 						url = url.substring(5, url.length);	
-					_xmlName.push(url);
+					_xmlNames.push(url);
 				}
 			}
 		}
@@ -108,7 +110,6 @@ package
 		 */		
 		private function getFileResource(file : Array):void
 		{
-			var directory:File;
 			var array:Array =file;
 			
 			for(var i:int = 0; i<array.length; ++i)
@@ -126,7 +127,7 @@ package
 					_urlArray.push(decodeURIComponent(url));	
 					
 					if(_isXml == true)
-						_xmlName.push(url.replace("."+extension,".xml"));
+						_xmlNames.push(url.replace("."+extension,".xml"));
 				}
 			}
 		}
@@ -136,13 +137,13 @@ package
 		 */		
 		private function buildXMLLoader():void
 		{
-			if(_xmlName.length == 0 && _isXml == true)
+			if(_xmlNames.length == 0 && _isXml == true)
 			{
 				_errorToast.toast("선택 된 파일이 Sprtie Sheet가 아니거나 Xml이 존재하지 않습니다.");
 				return;
 			}
 			
-			_loaderXML = new URLLoader(new URLRequest(_xmlName[0]));
+			_loaderXML = new URLLoader(new URLRequest(_xmlNames[0]));
 			_loaderXML.addEventListener(Event.COMPLETE, onLoadXMLComplete);
 		}
 		/**
@@ -151,21 +152,22 @@ package
 		 */		
 		private function buildLoader():void
 		{
-			if(_xmlName.length == 0 && _isXml == true)
+			if(_xmlNames.length == 0 && _isXml == true)
 			{
 				_errorToast.toast("선택 된 파일이 Sprtie Sheet가 아니거나 Xml이 존재하지 않습니다.");
 				return;
 			}
 			
 			sImageMaxCount =_urlArray.length; 
-			sImageMaxCount+=_xmlName.length;
+			sImageMaxCount+=_xmlNames.length;
 			
 			for(var i:int = 0; i<_urlArray.length; ++i)
 			{
 				var loader:Loader = new Loader();
 				
 				loader.load(new URLRequest(_urlArray[i]));
-				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoadComplete);					
+				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoadComplete);	
+				
 			}			
 		}
 		
@@ -176,13 +178,18 @@ package
 		 */		
 		private function onLoadComplete(e:Event):void
 		{
+			
 			var loaderInfo:LoaderInfo = LoaderInfo(e.target);
+			loaderInfo.removeEventListener(Event.COMPLETE, onLoadComplete);
 			
 			var filename:String = decodeURIComponent(loaderInfo.url);
 			var extension:Array = filename.split('/');
 			
-			_spriteName.push(extension[extension.length-1]);
+			_spriteNames.push(extension[extension.length-1]);
 			_spriteSheetDictionary[extension[extension.length-1]] = e.target.content as Bitmap;
+			
+			loaderInfo.loader.unload();
+			loaderInfo = null;
 			
 			chedckedImage();
 		}
@@ -196,15 +203,17 @@ package
 		{
 
 			_loaderXML.removeEventListener(Event.COMPLETE, onLoadXMLComplete);
-			var extension:Array = _xmlName[0].split('/');
+			_loaderXML = null;
+		
+			var extension:Array = _xmlNames[0].split('/');
 			_xmlDictionary[extension[extension.length-1]] = XML(e.currentTarget.data);
-			_xmlName.removeAt(0);
+			_xmlNames.removeAt(0);
 			
 			chedckedImage();
 			
-			if(_xmlName.length != 0)
+			if(_xmlNames.length != 0)
 			{
-				_loaderXML = new URLLoader(new URLRequest(_xmlName[0]));
+				_loaderXML = new URLLoader(new URLRequest(_xmlNames[0]));
 				_loaderXML.addEventListener(Event.COMPLETE, onLoadXMLComplete)
 			}	
 		}
@@ -236,7 +245,7 @@ package
 		
 		public function getspriteName() : Vector.<String>
 		{
-			return _spriteName;
+			return _spriteNames;
 		}
 		
 		public function release() : void
