@@ -47,9 +47,9 @@ package
 		{
 			var array:Array = new Array();
 			if(_selectPath == null)
-				getResource("resource/Component");
+				getFolderResource("resource/Component");
 			else
-				getResource1(_selectPath);
+				getFileResource(_selectPath);
 			
 			buildLoader();
 			
@@ -60,9 +60,10 @@ package
 		/**
 		 * 
 		 * @return 
-		 * 불러올 폴더명 지정
+		 * Note @유영선불러올 폴더명 지정
+		 * 폴더 안에 이미지 로드
 		 */		
-		private function getResource(filePath : String):void
+		private function getFolderResource(filePath : String):void
 		{
 			var directory:File;
 			var array:Array;
@@ -101,22 +102,15 @@ package
 				}
 			}
 		}
-		
-		private function getResource1(file : Array):void
+		/**
+		 * 
+		 * @param file 파일명
+		 * @Note 유영선 선택 되어진 파일들 로드
+		 */		
+		private function getFileResource(file : Array):void
 		{
 			var directory:File;
 			var array:Array =file;
-			
-			//			if(_selectPath == null)
-			//			{
-			//				directory = File.applicationDirectory.resolvePath(filePath);
-			//				array = directory.getDirectoryListing();
-			//			}
-			//			else
-			//			{
-			//				directory = File.desktopDirectory.resolvePath(filePath);
-			//				array = directory.getDirectoryListing();
-			//			}
 			
 			for(var i:int = 0; i<array.length; ++i)
 			{				
@@ -137,7 +131,10 @@ package
 				}
 			}
 		}
-		
+		/**
+		 *Note @유영선 XML 로드 
+		 * 
+		 */		
 		private function buildXMLLoader():void
 		{
 			if(_xmlName.length == 0 && _isXml == true)
@@ -149,7 +146,10 @@ package
 			_loaderXML = new URLLoader(new URLRequest(_xmlName[0]));
 			_loaderXML.addEventListener(Event.COMPLETE, onLoadXMLComplete);
 		}
-		
+		/**
+		 *Note @유영선 이미지 파일 로드 
+		 * 
+		 */		
 		private function buildLoader():void
 		{
 			if(_xmlName.length == 0 && _isXml == true)

@@ -2,7 +2,6 @@ package Window
 {
 	import com.lpesign.Extension;
 	
-	import flash.events.Event;
 	import flash.events.FileListEvent;
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
@@ -12,7 +11,6 @@ package Window
 	import Animaiton.Atlastexture;
 	
 	import Component.ButtonClass;
-	import Component.ButtonListClass;
 	
 	import MakeSheet.MakeSpriteSheet;
 	

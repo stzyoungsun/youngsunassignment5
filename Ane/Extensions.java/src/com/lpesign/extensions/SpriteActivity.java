@@ -11,20 +11,19 @@ import android.view.View;
 
 
 public class SpriteActivity extends Activity{
-	private static String TAG = "AirImagePicker";
+	private static String TAG = "NativeExtension";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);		
-		Log.d(TAG, "[AirImagePickerActivity] Entering onActivityResult");
+		Log.d(TAG, "[NativeExtension] Entering onActivityResult");
 		byte[] arr = getIntent().getByteArrayExtra("image");
 		Bitmap bm = BitmapFactory.decodeByteArray(arr, 0, arr.length);
 		
-		Log.d(TAG, "[AirImagePickerActivity] 액티비티 안에서 bitmap" + bm.getWidth());
+		Log.d(TAG, "[NativeExtension] 액티비티 안에서 bitmap" + bm.getWidth());
 		
 		setContentView(new DrawView(this,bm));
-		 //Toast.makeText(Extension.sContext.getActivity(), "000000", Toast.LENGTH_LONG).show();
 	}
 	
 	 private class DrawView extends View {
@@ -38,7 +37,7 @@ public class SpriteActivity extends Activity{
 	        protected void onDraw(Canvas canvas) {
 
 	            canvas.drawBitmap(_spriteBitmap, 0, 0, null);
-	            Log.d(TAG, "[AirImagePickerActivity] 캔버스 안에서 bitmap" + _spriteBitmap.getWidth());
+	            Log.d(TAG, "[NativeExtension] 캔버스 안에서 bitmap" + _spriteBitmap.getWidth());
 	        
 	        }
 	    }
@@ -46,22 +45,22 @@ public class SpriteActivity extends Activity{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		Log.d(TAG, "[AirImagePickerActivity] Entering onActivityResult");
+		Log.d(TAG, "[NativeExtension] Entering onActivityResult");
 		
 		super.onActivityResult(requestCode, resultCode, data);
 	
 		
-		Log.d(TAG, "[AirImagePickerActivity] Exiting onActivityResult");
+		Log.d(TAG, "[NativeExtension] Exiting onActivityResult");
 	}
 	
 	@Override
 	protected void onDestroy()
 	{
-		Log.d(TAG, "[AirImagePickerActivity] Entering onDestroy");
+		Log.d(TAG, "[NativeExtension] Entering onDestroy");
 		
 		super.onDestroy();
 		
-		Log.d(TAG, "[AirImagePickerActivity] Exiting onDestroy");
+		Log.d(TAG, "[NativeExtension] Exiting onDestroy");
 	}
 
 }

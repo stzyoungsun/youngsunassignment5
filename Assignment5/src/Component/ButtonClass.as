@@ -7,12 +7,17 @@ package Component
 	import starling.text.TextField;
 
 
-
+	/**
+	 * 
+	 * Note @유영선 버튼을 만들기 위한 클래스
+	 * Sprite 객체를 이용하여 Button 생성
+	 */
 	public class ButtonClass 
 	{
 		/**
 		 *Note @버큰을 만들기 위한 클래스
 		 * 버튼은 이미지 버튼, 텍스트 버튼 두가지로 나타납니다. 
+		 * 버튼의 종류는 Image 버튼과, Text가 삽입된 Image 버튼으로 나뉨
 		 */		
 		private var _button : Sprite;
 		private var _buttonRect : Rectangle;

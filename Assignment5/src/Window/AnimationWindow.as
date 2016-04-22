@@ -54,7 +54,6 @@ package Window
 		private var _pngNameArray : Array = new Array();
 		
 		private var _fileDialg:Extension; 
-		private var _fileDialg1:Extension = new  Extension();
 		
 		private var _curSelTextField : TextField;
 		/**
@@ -193,8 +192,7 @@ package Window
 						_cClip.getTimer().delay = 1000/_fpsCount;	
 						break;
 					case _cClip:
-						_fileDialg1.spriteActivity(_cClip.getSpriteSheet().bitmapData);
-						trace("123");
+						_fileDialg.spriteActivity(_cClip.getSpriteSheet().bitmapData);
 						break
 				}
 			}
@@ -203,8 +201,7 @@ package Window
 				switch(e.currentTarget)
 				{
 					case _loadSpriteButton.getButton():
-						_loadSpriteButton.clickedOFFMotion();
-						
+						_loadSpriteButton.clickedOFFMotion();		
 						break;
 					case _listCallButton.getButton():
 						_listCallButton.clickedOFFMotion();
@@ -258,8 +255,7 @@ package Window
 			{
 				_pngNameArray[i] = _cSpriteLoader.getspriteName()[i];
 			}
-			
-			
+
 			trace("Sprite Sheet 로드 완료");
 			removeChild(_loadSpriteButton.getButton());
 			_loadSpriteButton.getButton().removeEventListeners();

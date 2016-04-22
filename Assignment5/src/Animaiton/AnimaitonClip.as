@@ -15,6 +15,14 @@ package Animaiton
 		private var _ImageNum : int = 0;
 		private var _textures : Vector.<Texture >;
 		private var _spriteSheet : Bitmap = new Bitmap();
+		/**
+		 * 
+		 * @param textures : AtalsTexture의 Vector
+		 * @param fps : Timer 속도    
+		 * @param animation : Animation을 실행하는 함수
+		 * @param spriteSheet : 애니매이션 관련 Sprite Sheet
+		 * 
+		 */
 		public function AnimaitonClip(textures:Vector.<Texture > ,fps:Number,animation:Function,spriteSheet:Bitmap)
 		{
 			super(textures[0]);
@@ -25,10 +33,11 @@ package Animaiton
 			_timer.addEventListener(TimerEvent.TIMER, timerActive);           //타이머가 진행 하는 함수
 			_timer.addEventListener(TimerEvent.TIMER_COMPLETE, timerComplete); //타이머가 끝났을떄
 			
+			
 			 function timerActive():void
 			{
 				
-				animation(_textures[_ImageNum++]);
+				animation(_textures[_ImageNum++]);	//타이머 안에서 애니매이션 함수 호출
 		
 				if(_ImageNum == _textures.length)
 					_ImageNum =0;  

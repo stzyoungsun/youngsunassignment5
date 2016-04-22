@@ -6,15 +6,13 @@ package Animaiton
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	
-	import starling.textures.Texture;
-
 	public class AtlasBitmap
 	{
 		private var _sprtieSheet:Bitmap;
-		private var _subSpriteSheet: Dictionary;
-		private var _subSheetVector:Vector.<Bitmap> = new Vector.<Bitmap>;
+		private var _subSpriteSheet: Dictionary;	//SubTexture Dictionary
+		private var _subSheetVector:Vector.<Bitmap> = new Vector.<Bitmap>;	//SubTexture Vector
 		
-		private var _subTextureNames:Vector.<String> = new Vector.<String>;
+		private var _subTextureNames:Vector.<String> = new Vector.<String>;	//SubTexture들의 이름을 담고있는 Vector
 		
 		public function AtlasBitmap(sprtieSheet:Bitmap, spriteXml:XML = null)
 		{
@@ -48,7 +46,12 @@ package Animaiton
 				createSubTexure(name, region);
 			}
 		}
-		
+		/**
+		 * 
+		 * @param name : subTexture 이름
+		 * @param region : 
+		 * 
+		 */		
 		public function createSubTexure(name : String, region:Rectangle):void
 		{
 			var tempBitmapData : BitmapData = new BitmapData(region.width,region.height);
@@ -60,7 +63,12 @@ package Animaiton
 			//_subSheetVector.push(Texture.fromTexture(_sprtieSheet,region));
 			
 		}
-		
+		/**
+		 * 
+		 * @param subBitmap : 추가 할 이미지
+		 * @param name : 추가 할 파일의 이름
+		 * 
+		 */		
 		public function addSubBitmap(subBitmap : Bitmap, name : String) : void
 		{
 			_subSpriteSheet[name] =  subBitmap;

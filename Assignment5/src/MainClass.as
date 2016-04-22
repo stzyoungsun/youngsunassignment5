@@ -46,9 +46,9 @@ package
 		public function initialize() : void
 		{
 			
-			_cLoader = new LoaderClass(completeLoadImage);
+			_cLoader = new LoaderClass(completeLoadImage);	//컴포넌트 이미지 로드
 			
-			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, handleKeys);
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, handleKeys);	//back key 이벤트
 			function handleKeys (e : KeyboardEvent) : void
 			{
 				if(e.keyCode == Keyboard.BACK)
@@ -56,10 +56,10 @@ package
 					trace("종료");
 					e.preventDefault();
 					
-					if(_cAnimationWindow.getListCallButton().getButton().visible == true)
+					if(_cAnimationWindow.getListCallButton().getButton().visible == true)	//back 눌렀을때 초기화면으로 돌아옴
 						backButton();
 					else
-						_exitToast.exitDialog(true);
+						_exitToast.exitDialog(true);	//back key 눌렀을때 종료 다이얼로그 출력
 				}
 			}
 		}
@@ -69,11 +69,14 @@ package
 		 */		
 		private function completeLoadImage() : void
 		{
-			
+			//컴포넌트 이미지 AtlasTexture로 생성
 			_componentAtlas = new Atlastexture(Texture.fromBitmap(_cLoader.getSpriteSheetDictionary()["Component_Sheet0.png"]),_cLoader.getxmlDictionary()["Component_Sheet0.xml"]);
 			initWindow();
 		}
-		
+		/**
+		 * Note @유영선 AnimationWindow 생성
+		 * 
+		 */		
 		private function initWindow() : void 
 		{
 			_cAnimationWindow = new AnimationWindow(0,30,stage.stageWidth,stage.stageHeight,_componentAtlas.getsubSpriteSheet(),drawRadioButton);
@@ -114,7 +117,11 @@ package
 			_cImageWindow.visible = false;
 			addChild(_cImageWindow);
 		}
-		
+		/**
+		 * 
+		 * @param e
+		 * Note @유영선 Radio 버튼을 클릭 하였을 때 모드 변경  
+		 */		
 		private function onRadioClick(e:TouchEvent): void
 		{
 			var touch:Touch = e.getTouch(stage,TouchPhase.BEGAN);
@@ -141,7 +148,10 @@ package
 					return;
 			}
 		}
-		
+		/**
+		 * 
+		 * Note @유영선 BackKey를 클릭 하였을 경우 초기화면으로 돌아감
+		 */		
 		public function backButton() : void
 		{
 			if(_radioButton)
@@ -184,9 +194,5 @@ package
 			this.removeEventListeners();
 		}
 		
-		public function getWindow() : AnimationWindow
-		{
-			return _cAnimationWindow;
-		}
 	}
 }

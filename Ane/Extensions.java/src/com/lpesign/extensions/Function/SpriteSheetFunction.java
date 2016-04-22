@@ -19,7 +19,7 @@ import android.util.Log;
 
 public class SpriteSheetFunction implements FREFunction{
 	private Activity _flashActivity;
-	private static String TAG = "AirImagePicker";
+	private static String TAG = "NativeExtension";
 	 @Override
 	    public FREObject call(FREContext arg0, FREObject[] arg1) {
 	        // TODO Auto-generated method stub
@@ -30,7 +30,7 @@ public class SpriteSheetFunction implements FREFunction{
 	        	
 	        	 FREBitmapData inputValue = (FREBitmapData)arg1[0];
 	        	 inputValue.acquire();
-	        	 Log.d(TAG, "[AirImagePickerActivity] Bitmapdata Width : "+inputValue.getWidth());
+	        	 Log.d(TAG, "[NativeExtension] Bitmapdata Width : "+inputValue.getWidth());
 	   		    int srcWidth = inputValue.getWidth();
 	   		    int srcHeight = inputValue.getHeight();
 	   		    Bitmap bm = Bitmap.createBitmap(srcWidth, srcHeight, Config.ARGB_8888);
@@ -40,7 +40,7 @@ public class SpriteSheetFunction implements FREFunction{
 	   		    
 	   		    bm.compress(Bitmap.CompressFormat.JPEG, 80, os);
 	   		    byteArray =  os.toByteArray();
-	   		    Log.d(TAG, "[AirImagePickerActivity] byteArray : "+byteArray.length);
+	   		    Log.d(TAG, "[NativeExtension] byteArray : "+byteArray.length);
 	   		    inputValue.release();
 
 	        } catch (IllegalStateException e) {
