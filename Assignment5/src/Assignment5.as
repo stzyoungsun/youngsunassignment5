@@ -5,8 +5,8 @@ package
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
-
-	
+	import flash.desktop.NativeApplication;
+	import flash.events.Event;
 	import starling.core.Starling;
 
 	//[SWF(width="480", height="800", frameRate="60", backgroundColor="#ffffff")]
@@ -28,8 +28,8 @@ package
 			_mainStarling = new Starling(MainClass, stage);
 			_mainStarling.showStats = true;
 			_mainStarling.start();
-			
-			
+		
 		}
+		
 	}
 }

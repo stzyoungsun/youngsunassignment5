@@ -44,6 +44,7 @@ package Animaiton
 				region.setTo(x,y,width,height);
 				createSubTexure(name, region);
 			}
+			region =null;
 		}
 		
 		public function createSubTexure(name : String, region:Rectangle):void
@@ -78,6 +79,10 @@ package Animaiton
 		{
 			// TODD @유영선 해제 필요 하면 여기다 추가
 			trace("아트라스 텍스터 해제");
+			_subSheetVector = null;
+			_subTextureNames = null;
+			_subSpriteSheetDictionary = null;
 		}
+		
 	}
 }

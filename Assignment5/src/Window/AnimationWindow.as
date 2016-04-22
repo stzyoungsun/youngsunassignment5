@@ -87,7 +87,6 @@ package Window
 		public function onDrawWindow(e:starling.events.Event) : void
 		{
 			
-		
 			_vewImage = new Image(_componentDictionary["Window.png"]);
 			
 			var startImage:Image = new Image(_componentDictionary["Start.png"]);
@@ -104,7 +103,7 @@ package Window
 			_vewImage.y = _windowRect.y;
 			_vewImage.width = _windowRect.width;
 			_vewImage.height = _windowRect.height/2;
-			
+			//버튼 클래스 안에 Image 객체 해제 존재
 			_startButton = new ButtonClass(new Rectangle(_windowRect.width*6/10, _windowRect.height*3/5, _windowRect.width/14, _windowRect.height/14),startImage);
 			_stopButton = new ButtonClass(new Rectangle(_windowRect.width*8/10, _windowRect.height*3/5, _windowRect.width/14, _windowRect.height/14),stopImage);
 			
@@ -140,6 +139,8 @@ package Window
 			_fastButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 			_slowButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 			_listCallButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
+			
+			_componentDictionary = null;
 		}
 		/**
 		 * 
@@ -239,10 +240,14 @@ package Window
 		private function onFilesSelected(e:FileListEvent):void
 		{
 			_loadFile.removeEventListener(flash.events.Event.SELECT, onFilesSelected);
+		
 			var arr : Array = new Array();
 			arr = e.files;
 			_cSpriteLoader = new LoaderClass(onloadList);
 			_cSpriteLoader.resourceLoad(arr)
+				
+			arr = null;
+			_loadFile = null;
 		}
 		
 		/**
@@ -274,7 +279,6 @@ package Window
 			var curSelText : String = "";
 			
 			var spritexml : String = spriteName.replace("png","xml");
-			var spriteImage : Image = new Image(Texture.fromBitmap(_cSpriteLoader.getSpriteSheetDictionary()[spriteName]));
 			var subTexture : Atlastexture = new Atlastexture(Texture.fromBitmap(_cSpriteLoader.getSpriteSheetDictionary()[spriteName]),_cSpriteLoader.getxmlDictionary()[spritexml]);
 			var subBitmap : AtlasBitmap = new AtlasBitmap(_cSpriteLoader.getSpriteSheetDictionary()[spriteName],_cSpriteLoader.getxmlDictionary()[spritexml]);
 			
@@ -311,6 +315,13 @@ package Window
 			_cClip.y = _vewImage.height/2 - _cClip.height/2;
 			 
 			addChild(_cClip);
+			
+			subTexture.release();
+			subTexture = null;
+			
+			subBitmap.release();
+			subBitmap = null;
+			
 		}
 		/**
 		 * 
@@ -327,18 +338,43 @@ package Window
 		{
 			// TODD @유영선 해제 필요 하면 여기다 추가
 			trace("애니매이션 윈도우 해제");
-			if(_cClip)
-				_cClip.release();
-			if(_startButton)
-				_startButton.release();
 			if(_stopButton)
+			{
 				_stopButton.release();
+				_stopButton = null;
+			}
+			if(_cClip)
+			{
+				_cClip.release();
+				_cClip = null;
+			}
 			if(_loadSpriteButton)
+			{
 				_loadSpriteButton.release();
-
-			if(_loadFile)
-				_loadFile.removeEventListener(flash.events.Event.SELECT,onFilesSelected);
-				
+				_loadSpriteButton = null;
+			}
+			if(_startButton)
+			{
+				_startButton.release();
+				_startButton = null;
+			}
+			if(_listCallButton)
+			{
+				_listCallButton.release();
+				_listCallButton = null;
+			}
+			
+			if(_curSelTextField)
+			{
+				_curSelTextField.dispose();
+				_curSelTextField = null;
+			}
+			if(_vewImage)
+			{
+				_vewImage.dispose();
+				_vewImage = null;
+			}
+			
 			this.removeChildren();
 			this.removeEventListeners();
 		}

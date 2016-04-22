@@ -45,6 +45,8 @@ package Animaiton
 				region.setTo(x,y,width,height);
 				createSubTexure(name, region);
 			}
+			
+			region = null;
 		}
 		/**
 		 * 
@@ -60,6 +62,9 @@ package Animaiton
 			
 			_subSpriteSheetDictionary[name] = new Bitmap(tempBitmapData);
 			_subTextureNames.push(name);
+			
+			tempBitmapData.dispose();
+			tempBitmapData =null;
 			//_subSheetVector.push(Texture.fromTexture(_sprtieSheet,region));
 			
 		}
@@ -83,6 +88,13 @@ package Animaiton
 		public function getsubBitmapName() : Vector.<String > //subtecture에 이름만 리턴
 		{
 			return _subTextureNames;
+		}
+		
+		public function release() : void
+		{
+			_subSheetVector = null;
+			_subTextureNames = null;
+			_subSpriteSheetDictionary = null;
 		}
 	}
 }

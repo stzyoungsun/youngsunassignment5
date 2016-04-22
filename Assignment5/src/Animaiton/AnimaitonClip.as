@@ -47,17 +47,18 @@ package Animaiton
 			 function timerComplete():void
 			{
 				_timer.removeEventListener(TimerEvent.TIMER, timerActive);
-				_timer.removeEventListener(TimerEvent.TIMER_COMPLETE, timerComplete);
-				
+				_timer.removeEventListener(TimerEvent.TIMER_COMPLETE, timerComplete);	
 			}
 		}
 		public function release() : void
 		{
 			// TODD @유영선 해제 필요 하면 여기다 추가
-			trace("애니매이션 클릭 해제");
+			trace("애니매이션 클립 해제");
 			_timer.stop();
+			_timer = null;
+			_spriteSheet = null;
 			
-			dispose();
+			this.dispose();
 		}
 		public function getTimer() : Timer
 		{

@@ -80,10 +80,7 @@ package
 		private function initWindow() : void 
 		{
 			_cAnimationWindow = new AnimationWindow(0,30,stage.stageWidth,stage.stageHeight,_componentAtlas.getsubSpriteSheet(),drawRadioButton);
-			
-			var loadImage : Image = new Image(_componentAtlas.getsubSpriteSheet()["LoadSprite.png"]);
-			
-		
+				
 			addChild(_cAnimationWindow);
 		}
 		/**
@@ -171,13 +168,11 @@ package
 				_cAnimationWindow = null;
 			}
 			
-			
 			if(_cImageWindow)
 			{
 				_cImageWindow.release();
 				_cImageWindow = null;
 			}
-			
 			
 			initWindow();
 		}
@@ -189,9 +184,16 @@ package
 	
 			_cAnimationWindow.release();
 			_cImageWindow.release();
+			_cLoader.release();
+			_componentAtlas.release();
 			
+			_exitToast = null;
+			_cLoader = null;
+			_cAnimationWindow = null;
+				
 			this.removeChildren();
 			this.removeEventListeners();
+			this.dispose();
 		}
 		
 	}

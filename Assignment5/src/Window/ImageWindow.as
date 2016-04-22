@@ -105,6 +105,9 @@ package Window
 			addChild(_curSelTextField);
 			_addButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 			_listCallButton.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
+			
+			_componentDictionary = null;
+			_windowRect = null;
 		}
 		
 		/**
@@ -239,6 +242,34 @@ package Window
 		{
 			// TODD @유영선 해제 필요 하면 여기다 추가
 			trace("이미지 윈도우 해제");
+			if(_curSelTextField)
+			{
+				_curSelTextField.dispose();
+				_curSelTextField =null;
+			}
+			if(_curImage)
+			{
+				_curImage.dispose();
+				_curImage = null;
+			}
+			if(_addButton)
+			{
+				_addButton.release();
+				_curImage = null;
+			}
+			if(_listCallButton)
+			{
+				_listCallButton.release();
+				_listCallButton = null;
+			}
+			if(_makeSheet)
+			{
+				_makeSheet.release();
+				_makeSheet = null;
+			}
+			if(_fileDialg)
+				_fileDialg = null;
+
 
 			this.removeChildren();
 			this.removeEventListeners();

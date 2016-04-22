@@ -87,6 +87,12 @@ package Component
 			trace("라디오 클래스 해제");
 			_radioButton.removeChildren();
 			_radioButton.removeEventListeners();
+			_radioButtonRect = null;
+			_radioButtonONImage.dispose();
+			_radioButtonONImage = null;
+			_radioButtonOFFImage.dispose();
+			_radioButtonOFFImage =null;
+			
 		}
 	}
 }
