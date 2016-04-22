@@ -21,7 +21,7 @@ package
 		 */		
 		private var _currentCount : int = 0;
 		public static var sImageMaxCount :int;
-		private static var _selectPath:Array;
+		private static var _selectPathArray:Array;
 		
 		private var _spriteSheetDictionary : Dictionary = new Dictionary();
 		private var _xmlDictionary : Dictionary = new Dictionary;
@@ -32,25 +32,25 @@ package
 		private var _urlArray:Array = new Array();					//파일명이 담긴 배열
 		private var _fileDataArray:Array = new Array();			   //파일이 담김 배열
 		private var _loaderXML:URLLoader;
-		private var _completeFunction:Function;
+		private var _oncompleteFunction:Function;
 		
 		private var _isXml : Boolean; //xml 존재 여부
 		private var _errorToast:Extension = new Extension();
 		
-		public function LoaderClass(completeFunction : Function)
+		public function LoaderClass(oncompleteFunction : Function)
 		{
-			_completeFunction = completeFunction;
+			_oncompleteFunction = oncompleteFunction;
 		}
 		
 		public function resourceLoad(directoryPath:Array = null, isXml : Boolean = true) : void
 		{
 			_isXml = isXml;
-			_selectPath = directoryPath;
+			_selectPathArray = directoryPath;
 			
-			if(_selectPath == null)
+			if(_selectPathArray == null)
 				getFolderResource("resource/Component");
 			else
-				getFileResource(_selectPath);
+				getFileResource(_selectPathArray);
 			
 			buildLoader();
 			
@@ -69,7 +69,7 @@ package
 			var directory:File;
 			var array:Array;
 			
-			if(_selectPath == null)
+			if(_selectPathArray == null)
 			{
 				directory = File.applicationDirectory.resolvePath(filePath);
 				array = directory.getDirectoryListing();
@@ -89,7 +89,7 @@ package
 				
 				if(extension == "png" || extension == "jpg" || extension == "PNG" || extension == "JPG")
 				{
-					if(_selectPath == null)
+					if(_selectPathArray == null)
 						url = url.substring(5, url.length);	
 					
 					_urlArray.push(decodeURIComponent(url));
@@ -97,7 +97,7 @@ package
 				//XML Loader
 				else if(extension == "XML" || extension == "xml")
 				{
-					if(_selectPath == null)
+					if(_selectPathArray == null)
 						url = url.substring(5, url.length);	
 					_xmlNames.push(url);
 				}
@@ -121,7 +121,7 @@ package
 				
 				if(extension == "png" || extension == "jpg" || extension == "PNG" || extension == "JPG")
 				{
-					if(_selectPath == null)
+					if(_selectPathArray == null)
 						url = url.substring(5, url.length);	
 					
 					_urlArray.push(decodeURIComponent(url));	
@@ -229,7 +229,7 @@ package
 			if(_currentCount == sImageMaxCount) 
 			{
 				
-				_completeFunction();
+				_oncompleteFunction();
 			}
 		}
 		

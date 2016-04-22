@@ -13,6 +13,7 @@ package Window
 	import Component.ButtonClass;
 	
 	import MakeSheet.MakeSpriteSheet;
+	import MakeSheet.SaveToFile;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -47,6 +48,8 @@ package Window
 		private var _pngNameArray : Array = new Array();
 		
 		private var _curSelTextField : TextField;
+		
+		private var _cSaveToFile : SaveToFile;
 		
 		/**
 		 * 
@@ -132,7 +135,8 @@ package Window
 						_makeSheet.clickedONMotion();
 						_stateToast.toast("이미지 병합 중 입니다.");
 						var cMakeSpriteSheet : MakeSpriteSheet = new MakeSpriteSheet(_curBitmap);
-						cMakeSpriteSheet.getSheet();
+						
+						_cSaveToFile = new SaveToFile(cMakeSpriteSheet.getSheets(),cMakeSpriteSheet.getSheetRects(), cMakeSpriteSheet.getSheetNames());
 						_stateToast.toast("이미지 병합 완료 Image 폴더를 확인하세요.");
 						break;
 				}
@@ -174,7 +178,7 @@ package Window
 				_makeSheet.getButton().visible = true;
 				_makeSheet.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 				
-				_cAddImageLoader = new LoaderClass(addImageToList);	
+				_cAddImageLoader = new LoaderClass(onaddImageToList);	
 				_cAddImageLoader.resourceLoad(arr,false);
 			}
 		}
@@ -183,7 +187,7 @@ package Window
 		 * 
 		 * Note @유영선 메모리에 새로운 이미지 추가
 		 */		
-		private function addImageToList(): void
+		private function onaddImageToList(): void
 		{	
 			for(var i :int = 0; i < _cAddImageLoader.getspriteName().length; i++)
 			{

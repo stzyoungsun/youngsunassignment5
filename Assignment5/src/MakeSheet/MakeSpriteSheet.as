@@ -2,11 +2,8 @@ package MakeSheet
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
-	
 	import Animaiton.AtlasBitmap;
 	
 	
@@ -16,13 +13,12 @@ package MakeSheet
 		
 		private var _cBinaryTree : BinaryTree;
 		private var _cIDBitmap : IDBitmap;
-		private var _cSaveToFile : SaveToFile;
 		
 		private var _spriteSheet : BitmapData;
 		
-		private var _spriteSheetBitmap : Vector.<Bitmap> = new Vector.<Bitmap>;
-		private var _spriteSheetRect : Vector.<Vector.<Rectangle>> = new  Vector.<Vector.<Rectangle>>;
-		private var _spriteSheetName : Vector.<Array> = new  Vector.<Array>;
+		private var _spriteSheetBitmaps : Vector.<Bitmap> = new Vector.<Bitmap>;
+		private var _spriteSheetRects : Vector.<Vector.<Rectangle>> = new  Vector.<Vector.<Rectangle>>;
+		private var _spriteSheetNames : Vector.<Array> = new  Vector.<Array>;
 		
 		private var _bitmap : Bitmap;
 		
@@ -117,9 +113,9 @@ package MakeSheet
 				
 			}
 			
-			_spriteSheetBitmap.push(new Bitmap(_spriteSheet));
-			_spriteSheetRect.push(_cBinaryTree.getRectVetor());
-			_spriteSheetName.push(_cBinaryTree.getNameArray());
+			_spriteSheetBitmaps.push(new Bitmap(_spriteSheet));
+			_spriteSheetRects.push(_cBinaryTree.getRectVetor());
+			_spriteSheetNames.push(_cBinaryTree.getNameArray());
 			
 			if(excessImage.length != 0)
 			{
@@ -133,13 +129,21 @@ package MakeSheet
 		 *Note @유영선 삽입된 Image의 크기에 맞게 Sheet를 생성합니다. 
 		 * 
 		 */		
-		public function getSheet() : Vector.<Bitmap>
+		public function getSheets() : Vector.<Bitmap>
 		{
-			trace(_spriteSheetRect.length);
-			_cSaveToFile = new SaveToFile(_spriteSheetBitmap,_spriteSheetRect, _spriteSheetName);
+			trace(_spriteSheetRects.length);
 			
-			return _spriteSheetBitmap;
+			return _spriteSheetBitmaps;
 		}
 		
+		public function getSheetRects() : Vector.<Vector.<Rectangle>>
+		{	
+			return _spriteSheetRects;
+		}
+		
+		public function getSheetNames() : Vector.<Array>
+		{
+			return _spriteSheetNames;
+		}
 	}
 }
