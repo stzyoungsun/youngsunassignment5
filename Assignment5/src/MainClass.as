@@ -47,7 +47,7 @@ package
 		{
 			
 			_cLoader = new LoaderClass(completeLoadImage);	//컴포넌트 이미지 로드
-			
+			_cLoader.resourceLoad();
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, handleKeys);	//back key 이벤트
 			function handleKeys (e : KeyboardEvent) : void
 			{

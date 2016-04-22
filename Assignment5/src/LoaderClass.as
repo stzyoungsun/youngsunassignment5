@@ -35,17 +35,16 @@ package
 		
 		private var _isXml : Boolean; //xml 존재 여부
 		private var _errorToast:Extension = new Extension();
-		public function LoaderClass(completeFunction : Function,directoryPath:Array = null, isXml : Boolean = true)
+		public function LoaderClass(completeFunction : Function)
+		{
+			_completeFunction = completeFunction;
+		}
+		
+		public function resourceLoad(directoryPath:Array = null, isXml : Boolean = true) : void
 		{
 			_isXml = isXml;
 			_selectPath = directoryPath;
-			_completeFunction = completeFunction;
-			resourceLoader();
-		}
-		
-		public function resourceLoader() : void
-		{
-			var array:Array = new Array();
+			
 			if(_selectPath == null)
 				getFolderResource("resource/Component");
 			else

@@ -174,7 +174,8 @@ package Window
 				_makeSheet.getButton().visible = true;
 				_makeSheet.getButton().addEventListener(TouchEvent.TOUCH,onButtonClick);
 				
-				_cAddImageLoader = new LoaderClass(addImageToList,arr,false);	
+				_cAddImageLoader = new LoaderClass(addImageToList);	
+				_cAddImageLoader.resourceLoad(arr,false);
 			}
 		}
 		

@@ -241,7 +241,8 @@ package Window
 			_loadFile.removeEventListener(flash.events.Event.SELECT, onFilesSelected);
 			var arr : Array = new Array();
 			arr = e.files;
-			_cSpriteLoader = new LoaderClass(loadList,arr);
+			_cSpriteLoader = new LoaderClass(loadList);
+			_cSpriteLoader.resourceLoad(arr)
 		}
 		
 		/**
