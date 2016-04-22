@@ -13,7 +13,7 @@ package Animaiton
 	{
 		private var _timer : Timer;
 		private var _ImageNum : int = 0;
-		private var _textures : Vector.<Texture >;
+		private var _textures : Vector.<Texture>;
 		private var _spriteSheet : Bitmap = new Bitmap();
 		/**
 		 * 

@@ -35,7 +35,7 @@ package
 		private var _cImageWindow : ImageWindow = null;
 		private var _componentAtlas : Atlastexture; 
 		
-		private var _radioButton : Vector.<RadioButtonClass>;    //라디오 버튼은  Animation/Image Window를 조절 하는 버튼 이므로 Main에 삽입
+		private var _radioButtons : Vector.<RadioButtonClass>;    //라디오 버튼은  Animation/Image Window를 조절 하는 버튼 이므로 Main에 삽입
 		
 		private var _exitToast:Extension = new Extension();
 		public function MainClass()
@@ -46,7 +46,7 @@ package
 		public function initialize() : void
 		{
 			
-			_cLoader = new LoaderClass(completeLoadImage);	//컴포넌트 이미지 로드
+			_cLoader = new LoaderClass(oncompleteLoadImage);	//컴포넌트 이미지 로드
 			_cLoader.resourceLoad();
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, handleKeys);	//back key 이벤트
 			function handleKeys (e : KeyboardEvent) : void
@@ -67,7 +67,7 @@ package
 		 *Note @유영선 이미지 로딩 완료 후 AnimationWindow 창 로드  
 		 * 
 		 */		
-		private function completeLoadImage() : void
+		private function oncompleteLoadImage() : void
 		{
 			//컴포넌트 이미지 AtlasTexture로 생성
 			_componentAtlas = new Atlastexture(Texture.fromBitmap(_cLoader.getSpriteSheetDictionary()["Component_Sheet0.png"]),_cLoader.getxmlDictionary()["Component_Sheet0.xml"]);
@@ -96,22 +96,22 @@ package
 				_cImageWindow.release();
 			else
 			{
-				_radioButton = new Vector.<RadioButtonClass>;
+				_radioButtons = new Vector.<RadioButtonClass>;
 				var RadioOFFImageA:Image = new Image(_componentAtlas.getsubSpriteSheet()["RadioOFF.png"]);
 				var RadioONImageA:Image = new Image(_componentAtlas.getsubSpriteSheet()["RadioON.png"]);
 				
 				var RadioOFFImageI:Image = new Image(_componentAtlas.getsubSpriteSheet()["RadioOFF.png"]);
 				var RadioONImageI:Image = new Image(_componentAtlas.getsubSpriteSheet()["RadioON.png"]);
 				
-				_radioButton[0] = new RadioButtonClass(new Rectangle(30, stage.stageHeight*10/13, stage.stageWidth/14, stage.stageHeight/14), RadioONImageA,RadioOFFImageA,"Animation Mode");
-				_radioButton[1] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*10/13,stage.stageWidth/14, stage.stageHeight/14), RadioONImageI,RadioOFFImageI,"Image Mode");	
-				_radioButton[1].swtichClicked(false);
+				_radioButtons[0] = new RadioButtonClass(new Rectangle(30, stage.stageHeight*10/13, stage.stageWidth/14, stage.stageHeight/14), RadioONImageA,RadioOFFImageA,"Animation Mode");
+				_radioButtons[1] = new RadioButtonClass(new Rectangle(stage.stageWidth/2+30, stage.stageHeight*10/13,stage.stageWidth/14, stage.stageHeight/14), RadioONImageI,RadioOFFImageI,"Image Mode");	
+				_radioButtons[1].swtichClicked(false);
 				
-				_radioButton[0].getRadioButton().addEventListener(TouchEvent.TOUCH,onRadioClick);
-				_radioButton[1].getRadioButton().addEventListener(TouchEvent.TOUCH,onRadioClick);
+				_radioButtons[0].getRadioButton().addEventListener(TouchEvent.TOUCH,onRadioClick);
+				_radioButtons[1].getRadioButton().addEventListener(TouchEvent.TOUCH,onRadioClick);
 				
-				addChild(_radioButton[0].getRadioButton());
-				addChild(_radioButton[1].getRadioButton());
+				addChild(_radioButtons[0].getRadioButton());
+				addChild(_radioButtons[1].getRadioButton());
 			}
 			_cImageWindow = new ImageWindow(0,30,stage.stageWidth,stage.stageHeight,_componentAtlas.getsubSpriteSheet(),curTexture,curBitmap);
 			_cImageWindow.visible = false;
@@ -128,19 +128,19 @@ package
 			
 			if(touch)
 			{
-				if(e.currentTarget == _radioButton[0].getRadioButton())
+				if(e.currentTarget == _radioButtons[0].getRadioButton())
 				{
 					trace("0번 라디오 찍힘");
-					_radioButton[0].swtichClicked(true);
-					_radioButton[1].swtichClicked(false);
+					_radioButtons[0].swtichClicked(true);
+					_radioButtons[1].swtichClicked(false);
 					_cAnimationWindow.visible = true;
 					_cImageWindow.visible = false;
 				}
-				else if(e.currentTarget == _radioButton[1].getRadioButton())
+				else if(e.currentTarget == _radioButtons[1].getRadioButton())
 				{
 					trace("1번 라디오 찍힘");
-					_radioButton[0].swtichClicked(false);
-					_radioButton[1].swtichClicked(true);
+					_radioButtons[0].swtichClicked(false);
+					_radioButtons[1].swtichClicked(true);
 					_cAnimationWindow.visible = false;
 					_cImageWindow.visible = true;
 				}
@@ -154,16 +154,16 @@ package
 		 */		
 		public function backButton() : void
 		{
-			if(_radioButton)
+			if(_radioButtons)
 			{
-				for(var i: int =0; i < _radioButton.length; i++)
+				for(var i: int =0; i < _radioButtons.length; i++)
 				{
-					removeChild(_radioButton[i].getRadioButton());
-					_radioButton[i].release();
-					_radioButton[i] = null;
+					removeChild(_radioButtons[i].getRadioButton());
+					_radioButtons[i].release();
+					_radioButtons[i] = null;
 					
 				}
-				_radioButton = null;
+				_radioButtons = null;
 			}
 			if(_cAnimationWindow)
 			{

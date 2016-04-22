@@ -9,14 +9,14 @@ package Animaiton
 	public class Atlastexture
 	{
 		private var _sprtieSheet:Texture;
-		private var _subSpriteSheet: Dictionary;
+		private var _subSpriteSheetDictionary: Dictionary;
 		private var _subSheetVector:Vector.<Texture> = new Vector.<Texture>;
 		
 		private var _subTextureNames:Vector.<String> = new Vector.<String>;
 		
 		public function Atlastexture(sprtieSheet:Texture, spriteXml:XML = null)
 		{
-			_subSpriteSheet = new  Dictionary();
+			_subSpriteSheetDictionary = new  Dictionary();
 			_sprtieSheet = sprtieSheet;
 			
 			if (spriteXml)
@@ -48,7 +48,7 @@ package Animaiton
 		
 		public function createSubTexure(name : String, region:Rectangle):void
 		{
-			_subSpriteSheet[name] =  Texture.fromTexture(_sprtieSheet,region);
+			_subSpriteSheetDictionary[name] =  Texture.fromTexture(_sprtieSheet,region);
 			
 			_subSheetVector.push(Texture.fromTexture(_sprtieSheet,region));
 			_subTextureNames.push(name);
@@ -56,13 +56,13 @@ package Animaiton
 		
 		public function addSubTexure(subTexture : Texture, name : String) : void
 		{
-			_subSpriteSheet[name] =  subTexture;
+			_subSpriteSheetDictionary[name] =  subTexture;
 			_subSheetVector.push(subTexture);
 			_subTextureNames.push(name);
 		}
 		public function getsubSpriteSheet() :Dictionary   //subtecture를  Dictionary로 리턴
 		{
-			return _subSpriteSheet;
+			return _subSpriteSheetDictionary;
 		}
 		
 		public function getsubVector() : Vector.<Texture>	//subtecture를  Vector로 리턴

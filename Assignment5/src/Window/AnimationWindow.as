@@ -241,7 +241,7 @@ package Window
 			_loadFile.removeEventListener(flash.events.Event.SELECT, onFilesSelected);
 			var arr : Array = new Array();
 			arr = e.files;
-			_cSpriteLoader = new LoaderClass(loadList);
+			_cSpriteLoader = new LoaderClass(onloadList);
 			_cSpriteLoader.resourceLoad(arr)
 		}
 		
@@ -249,7 +249,7 @@ package Window
 		 * List를 등록하기 위한 함수 
 		 * 
 		 */		
-		private function loadList(): void
+		private function onloadList(): void
 		{	
 	
 			for(var i: int =0 ; i< _cSpriteLoader.getspriteName().length; i++)

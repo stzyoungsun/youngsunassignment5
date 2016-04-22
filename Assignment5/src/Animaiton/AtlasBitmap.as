@@ -9,14 +9,14 @@ package Animaiton
 	public class AtlasBitmap
 	{
 		private var _sprtieSheet:Bitmap;
-		private var _subSpriteSheet: Dictionary;	//SubTexture Dictionary
+		private var _subSpriteSheetDictionary: Dictionary;	//SubTexture Dictionary
 		private var _subSheetVector:Vector.<Bitmap> = new Vector.<Bitmap>;	//SubTexture Vector
 		
 		private var _subTextureNames:Vector.<String> = new Vector.<String>;	//SubTexture들의 이름을 담고있는 Vector
 		
 		public function AtlasBitmap(sprtieSheet:Bitmap, spriteXml:XML = null)
 		{
-			_subSpriteSheet = new  Dictionary();
+			_subSpriteSheetDictionary = new  Dictionary();
 			_sprtieSheet = sprtieSheet;
 			
 			if (spriteXml)
@@ -58,7 +58,7 @@ package Animaiton
 	
 			tempBitmapData.copyPixels(_sprtieSheet.bitmapData,region,new Point(0,0));
 			
-			_subSpriteSheet[name] = new Bitmap(tempBitmapData);
+			_subSpriteSheetDictionary[name] = new Bitmap(tempBitmapData);
 			_subTextureNames.push(name);
 			//_subSheetVector.push(Texture.fromTexture(_sprtieSheet,region));
 			
@@ -71,13 +71,13 @@ package Animaiton
 		 */		
 		public function addSubBitmap(subBitmap : Bitmap, name : String) : void
 		{
-			_subSpriteSheet[name] =  subBitmap;
+			_subSpriteSheetDictionary[name] =  subBitmap;
 			_subTextureNames.push(name);
 		}
 		
 		public function getsubSpriteSheet() :Dictionary   //subtecture를  Dictionary로 리턴
 		{
-			return _subSpriteSheet;
+			return _subSpriteSheetDictionary;
 		}
 		
 		public function getsubBitmapName() : Vector.<String > //subtecture에 이름만 리턴
